@@ -21,7 +21,8 @@ namespace LemonadeStandV2
 
             do
             {
-                DisplayStoreMenu();
+                UserInterface.DisplayMoney(player);
+                UserInterface.DisplayStoreMenu();
                 MenuSelection();
 
             }
@@ -30,21 +31,6 @@ namespace LemonadeStandV2
 
         }
 
-        public void DisplayStoreMenu()
-        {
-
-            Console.WriteLine("You have $" + player.wallet.Money);
-            Console.WriteLine();
-            Console.WriteLine("What would you like to buy?");
-            Console.WriteLine();
-            Console.WriteLine("Cups? type 'cups'");
-            Console.WriteLine("Lemons? type 'lemons'");
-            Console.WriteLine("Sugar? type 'sugar'");
-            Console.WriteLine("Ice Cubes? type 'ice'");
-            Console.WriteLine("Advance to recipe? type 'done'");
-            Console.WriteLine();
-
-        }
 
         public void MenuSelection()
         {
@@ -84,7 +70,7 @@ namespace LemonadeStandV2
 
         public void PurchaseItems(string item, int quant, double price)        {            bool didBuy = player.wallet.CheckWallet(price);            if (didBuy == true)            {                Console.WriteLine("purchased " + quant + " " + item + " for $" + price);                player.inventory.AddItemsToInventory(quant, item);
 
-                Console.WriteLine("remaining money $" + player.wallet.Money);                player.inventory.DisplayInventory();                GoToTheStore();            }            else            {                Console.ForegroundColor = ConsoleColor.Red;                Console.WriteLine("You dont have enough money to buy this item");                Console.ResetColor();
+                Console.WriteLine("remaining money $" + player.wallet.Money);                UserInterface.DisplayInventory(player);                GoToTheStore();            }            else            {                UserInterface.NotEnoughMoney();                
                             }        }
 
 

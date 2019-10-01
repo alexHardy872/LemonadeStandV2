@@ -4,15 +4,54 @@ namespace LemonadeStandV2
 {
     public static class UserInterface
     {
-        
 
 
+        public static void Welcome()
+        {            Console.WriteLine("Welcome to Lemonade Stand! Press ENTER to begin!");
+            Console.ReadLine();            Console.Clear();
+        }
 
+        public static void DisplayDay(int currentDay)
+        {
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Day " + currentDay);
+            Console.ResetColor();
+
+        }
+
+        public static void DisplayMoney(Player player)
+        {
+            Console.WriteLine("You have $" + player.wallet.Money);
+        }
+
+        public static void DisplayForcast(Day dayIn)
+        {
+            string forcast = dayIn.weather.SendPredictedWeather();
+            Console.WriteLine(forcast);
+            Console.WriteLine();
+        }
+
+        public static void DisplayInventory(Player player)
+        {
+
+            Console.WriteLine("Inventory");            Console.WriteLine();            Console.WriteLine(player.inventory.cups.Count + " Cups");            Console.WriteLine(player.inventory.lemons.Count + " Lemons");            Console.WriteLine(player.inventory.sugarCups.Count + " Cups of sugar");            Console.WriteLine(player.inventory.iceCubes.Count + " IceCubes");
+            Console.WriteLine();
+        }
 
 
 
         public static void DisplayStoreMenu()
         {
+
+            Console.WriteLine();
+            Console.WriteLine("What would you like to buy?");
+            Console.WriteLine();
+            Console.WriteLine("Cups? type 'cups'");
+            Console.WriteLine("Lemons? type 'lemons'");
+            Console.WriteLine("Sugar? type 'sugar'");
+            Console.WriteLine("Ice Cubes? type 'ice'");
+            Console.WriteLine("Advance to recipe? type 'done'");
+            Console.WriteLine();
 
         }
 
@@ -66,7 +105,12 @@ namespace LemonadeStandV2
         }
 
 
-
+        public static void NotEnoughMoney()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("You dont have enough money to buy this item");
+            Console.ResetColor();
+        }
 
 
 

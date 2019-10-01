@@ -18,7 +18,7 @@ namespace LemonadeStandV2
 
         public void StartGame()
         {
-            Welcome();
+            UserInterface.Welcome();
             SetGameLength();
             // Create Days,
             CreateAllDays();
@@ -30,14 +30,13 @@ namespace LemonadeStandV2
             // LOOP THROUGH DAYS LIST
             for (int i = 0; i < days.Count; i++)
             {
-                Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Day " + currentDay);
-                Console.ResetColor();
+                UserInterface.DisplayDay(currentDay);
+               
 
-                DisplayForcast(days[i]);
-                //DisplayMoney();
+                UserInterface.DisplayForcast(days[i]);
+                
 
-                DisplayInventory();
+                
 
                 GoToStore();
 
@@ -82,27 +81,10 @@ namespace LemonadeStandV2
         
 
 
-        public void DisplayMoney()
-        {
-            double money = player.wallet.Money;
-            Console.WriteLine("Current funds = $" + money);
-            Console.WriteLine();
-        }
-
-        public void DisplayInventory()
-        {
-            player.inventory.DisplayInventory();
-            Console.WriteLine();
-        }
-
       
 
-        public void DisplayForcast(Day dayIn)
-        {
-            string forcast = dayIn.weather.SendPredictedWeather();
-            Console.WriteLine(forcast);
-            Console.WriteLine();
-        }
+   
+        
 
         public void GoToStore()
         {
@@ -113,9 +95,7 @@ namespace LemonadeStandV2
 
       
 
-        public void Welcome()
-        {            Console.WriteLine("Welcome to Lemonade Stand! Press ENTER to begin!");                 Console.ReadLine();            Console.Clear();
-        }
+       
 
         
     }

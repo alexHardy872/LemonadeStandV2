@@ -27,11 +27,7 @@ namespace LemonadeStandV2
 
 
 
-            public void DisplayInventory()
-        { 
-        Console.WriteLine("Inventory");            Console.WriteLine();            Console.WriteLine(cups.Count + " Cups");            Console.WriteLine(lemons.Count + " Lemons");            Console.WriteLine(sugarCups.Count + " Cups of sugar");            Console.WriteLine(iceCubes.Count + " IceCubes");
-            Console.WriteLine();
-        }
+      
 
 
 
