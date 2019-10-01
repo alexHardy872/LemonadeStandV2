@@ -25,14 +25,18 @@ namespace LemonadeStandV2
             // Create Player,
             CreatePlayer();
 
+            currentDay = 1;
+
             // LOOP THROUGH DAYS LIST
             for (int i = 0; i < days.Count; i++)
             {
-                Console.WriteLine("Day " + currentDay + 1);
-
+                Console.WriteLine("Day " + currentDay);
+                DisplayForcast(days[i]);
                 DisplayMoney();
+
                 DisplayInventory();
 
+                DisplayRecipe();
                 // send to store
 
                 // send to recipe
@@ -54,8 +58,8 @@ namespace LemonadeStandV2
 
         public void SetGameLength()
         {
-            gameLength = Int32.Parse(GetUserInput("How many days would you like the game to last?"));
-
+            gameLength = Int32.Parse(GetUserInput("How many days would you like the game to last?")); // validate num?
+            Console.Clear();
         }
 
         public void NewDay(int dayNum)        {            Day day = new Day(dayNum);
@@ -77,11 +81,26 @@ namespace LemonadeStandV2
         {
             double money = player.wallet.Money;
             Console.WriteLine("Current funds = $" + money);
+            Console.WriteLine();
         }
 
         public void DisplayInventory()
         {
             player.inventory.DisplayInventory();
+            Console.WriteLine();
+        }
+
+        public void DisplayRecipe()
+        {
+            player.recipe.DisplayRecipe();
+            Console.WriteLine();
+        }
+
+        public void DisplayForcast(Day dayIn)
+        {
+            string forcast = dayIn.weather.SendPredictedWeather();
+            Console.WriteLine(forcast);
+            Console.WriteLine();
         }
 
         public void Welcome()
