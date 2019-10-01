@@ -30,13 +30,18 @@ namespace LemonadeStandV2
             // LOOP THROUGH DAYS LIST
             for (int i = 0; i < days.Count; i++)
             {
+                Console.BackgroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Day " + currentDay);
+                Console.ResetColor();
+
                 DisplayForcast(days[i]);
-                DisplayMoney();
+                //DisplayMoney();
 
                 DisplayInventory();
 
-                DisplayRecipe();
+                GoToStore();
+
+                player.recipe.GoToRecipe();
                 // send to store
 
                 // send to recipe
@@ -90,11 +95,7 @@ namespace LemonadeStandV2
             Console.WriteLine();
         }
 
-        public void DisplayRecipe()
-        {
-            player.recipe.DisplayRecipe();
-            Console.WriteLine();
-        }
+      
 
         public void DisplayForcast(Day dayIn)
         {
@@ -102,6 +103,15 @@ namespace LemonadeStandV2
             Console.WriteLine(forcast);
             Console.WriteLine();
         }
+
+        public void GoToStore()
+        {
+            Store store = new Store(player);
+            store.GoToTheStore();
+
+        }
+
+      
 
         public void Welcome()
         {            Console.WriteLine("Welcome to Lemonade Stand! Press ENTER to begin!");                 Console.ReadLine();            Console.Clear();

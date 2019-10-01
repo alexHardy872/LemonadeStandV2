@@ -18,7 +18,7 @@ namespace LemonadeStandV2
         }
 
 
-      
+        public bool CheckWallet(double price)        {            if (price > money)            {                return false;            }            else            {                money -= price;                return true;            }        }
 
 
 
