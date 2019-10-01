@@ -4,22 +4,56 @@ namespace LemonadeStandV2
 {
     public class Customer
     {
-        private double likelyToBuy;
-        private Random rand;
+        public double likelyToBuy;
         private string weather;
         private int temp;
-
+        public bool didBuy;
         
-        //private List<string> names;
-        //public string name;
-
-
-
 
         public Customer(string weather, int temp)
         {
             this.weather = weather;
             this.temp = temp;
+
+        }
+
+        public void CalculateLikelyToBuy(double price)
+        {
+            double tempFactor = 100 * temp;
+            double priceFactor = 100 - price;
+            double customerVarietyFactor = UserInterface.RandomNumber(0, 100);
+            double weatherFactor = DetermineWeatherFactor();
+
+            likelyToBuy = (tempFactor + weatherFactor + priceFactor + customerVarietyFactor) / 4;
+            
+
+            
+        }
+
+
+        public double DetermineWeatherFactor()
+        {
+            switch (weather)
+            {
+                case "Snowy":
+                    return 10;
+                case "Rainy":
+                    return 20;
+                case "Overcast":
+                    return 40;
+                case "Clear":
+                    return 60;
+                case "Sunny":
+                    return 90;
+                default:
+                    return 50;
+            }
+        }
+
+
+        public void CustomerApproachesStand()
+        {
+
 
         }
 
@@ -31,8 +65,7 @@ namespace LemonadeStandV2
 
 
 
-
-        public int RandomNumber(int min, int max)        {            rand = new Random();            int num = rand.Next(min, max);            return num;        }
+       
 
     }
 }

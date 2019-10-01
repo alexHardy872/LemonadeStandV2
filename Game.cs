@@ -20,35 +20,38 @@ namespace LemonadeStandV2
         {
             UserInterface.Welcome();
             SetGameLength();
-            // Create Days,
+            
             CreateAllDays();
-            // Create Player,
+            
             CreatePlayer();
 
             currentDay = 1;
 
-            // LOOP THROUGH DAYS LIST
+            
             for (int i = 0; i < days.Count; i++)
             {
                 UserInterface.DisplayDay(currentDay);
                
 
                 UserInterface.DisplayForcast(days[i]);
-                
 
+                UserInterface.SevenDayForcast(days, days[i], currentDay);
                 
 
                 GoToStore();
 
                 player.recipe.GoToRecipe();
-                // send to store
 
-                // send to recipe
+                RunDay();
+               
+            
 
-                // act out day
+                //total profits (money at start of day minus money at end)
 
                 currentDay++;
             }
+
+            // total profit from day 1;
 
 
 
@@ -62,7 +65,7 @@ namespace LemonadeStandV2
 
         public void SetGameLength()
         {
-            gameLength = Int32.Parse(GetUserInput("How many days would you like the game to last?")); // validate num?
+            gameLength = UserInterface.Limiter(Int32.Parse(UserInterface.GetUserInput("How many days would you like the game to last? (Max 30)")),1,30); // validate num?
             Console.Clear();
         }
 
@@ -72,12 +75,7 @@ namespace LemonadeStandV2
 
 
 
-        public string GetUserInput(string message)
-        {
-            Console.WriteLine(message);
-            return Console.ReadLine();
-        }
-
+     
         
 
 
@@ -94,9 +92,20 @@ namespace LemonadeStandV2
         }
 
       
+        public void RunDay()
+        {
 
-       
+            // act out day
 
-        
+            // pour pitcher
+            // subtract from inventory (ice *12)
+
+            // loop through customers to see if they buy
+
+            // add money as they buy
+        }
+
+
+
     }
 }

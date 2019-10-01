@@ -8,6 +8,7 @@ namespace LemonadeStandV2
 
         public Pitcher()
         {
+            cupsLeftInPitcher = 12;
         }
 
 

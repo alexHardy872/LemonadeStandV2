@@ -27,9 +27,31 @@ namespace LemonadeStandV2
         public static void DisplayForcast(Day dayIn)
         {
             string forcast = dayIn.weather.SendPredictedWeather();
-            Console.WriteLine(forcast);
-            Console.WriteLine();
+            Console.WriteLine("Today's forcast is "+forcast);
+            
         }
+
+        public static void SevenDayForcast(List<Day> days, Day day, int currentDay)
+        {
+            int daysLeft = days.Count - currentDay;
+            int daysAhead = Limiter(daysLeft, 0, 8);
+
+            if (daysAhead > 1)
+            {           
+                for (int i = currentDay + 1; i < daysAhead; i++)
+                {
+                    string forcast = days[i].weather.SendPredictedWeather();
+                    Console.WriteLine("Day " + i + " forcast " + forcast);           
+                }
+            }
+            if (daysAhead == 1)
+            {
+                string forcast = days[currentDay].weather.SendPredictedWeather();
+                Console.WriteLine("Tomorrow's forcast is " + forcast);
+                Console.WriteLine();
+            }
+        }
+
 
         public static void DisplayInventory(Player player)
         {
@@ -55,9 +77,17 @@ namespace LemonadeStandV2
 
         }
 
-        public static void DisplayQuantityMenu()
+        public static void DisplayStoreQuantities(string item, int quant1, int quant2, int quant3, double price1, double price2, double price3)
+        {
+            Console.WriteLine("What quantity of " + item + " do you want to buy? (enter the number");            Console.WriteLine("Option '1' ( " + quant1 + " for $" + price1);            Console.WriteLine("Option '2' ( " + quant2 + " for $" + price2);            Console.WriteLine("Option '3' ( " + quant3 + " for $" + price3);            Console.WriteLine("or type 'back' to go back to the last menue");
+
+        }
+
+        public static void ConfirmPurchase(string item, int quant, double price, Player player)
         {
 
+            Console.WriteLine("purchased " + quant + " " + item + " for $" + price);
+            Console.WriteLine("remaining money $" + player.wallet.Money);
         }
 
         public static void DisplayRecipeMenu()
@@ -112,7 +142,30 @@ namespace LemonadeStandV2
             Console.ResetColor();
         }
 
+        public static int RandomNumber(int min, int max)
+        {
+              Random rand = new Random();
+                int num = rand.Next(min, max);
+                return num;
+        }
 
+
+        public static int Limiter(int input, int min, int max)
+        {
+            if (input > max)
+            {
+                return max;
+            }
+            else if (input < min)
+            {
+                return min;
+            }
+            else
+            {
+                return input;
+            }
+            
+        }
 
 
     }

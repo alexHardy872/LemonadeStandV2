@@ -9,11 +9,11 @@ namespace LemonadeStandV2
         private List<string> weatherConditions;
         public string predictedForcast;
         public int predictedTemp;
-        private Random rand;
+        
 
         public Weather()
         {
-            weatherConditions = new List<string> { "Snowy", "Rainy", "Overcast", "Clear", "Sunny" };            temperature = RandomNumber(30, 100);            condition = weatherConditions[RandomNumber(0, 4)];
+            weatherConditions = new List<string> { "Snowy", "Rainy", "Overcast", "Clear", "Sunny" };            temperature = UserInterface.RandomNumber(30, 100);            condition = weatherConditions[UserInterface.RandomNumber(0, 4)];
             PredictWeather();
             PredictTemperature();
         }
@@ -24,8 +24,8 @@ namespace LemonadeStandV2
         public void PredictWeather()
         {
             int index = weatherConditions.IndexOf(condition);
-            int accuracy = RandomNumber(0, 2);
-            int error = RandomNumber(0, 1);
+            int accuracy = UserInterface.RandomNumber(0, 2);
+            int error = UserInterface.RandomNumber(0, 1);
 
             if (index == 0)
             {
@@ -50,7 +50,7 @@ namespace LemonadeStandV2
 
         public void PredictTemperature()
         {
-            int error = RandomNumber(0, 1);            if (error == 0)            {                predictedTemp = temperature - RandomNumber(0, 10);            }            else            {                predictedTemp = temperature + RandomNumber(0, 10);            }
+            int error = UserInterface.RandomNumber(0, 1);            if (error == 0)            {                predictedTemp = temperature - UserInterface.RandomNumber(0, 10);            }            else            {                predictedTemp = temperature + UserInterface.RandomNumber(0, 10);            }
         }
 
 
@@ -69,7 +69,7 @@ namespace LemonadeStandV2
 
 
 
-        public int RandomNumber(int min, int max)        {            rand = new Random();            int num = rand.Next(min, max);            return num;        }
+      
 
 
     }

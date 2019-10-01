@@ -40,7 +40,7 @@ namespace LemonadeStandV2
 
             while (input != "cups" && input != "lemons" && input != "sugar" && input != "ice" && input != "done")
             {
-                input = RetryGetUserInput(input + " is not a valid choice, please try again");
+                input = UserInterface.RetryGetUserInput(input + " is not a valid choice, please try again");
             }
 
             switch (input)
@@ -65,13 +65,10 @@ namespace LemonadeStandV2
 
         }
 
-        public void QuantityMenu(string item, int quant1, int quant2, int quant3, double price1, double price2, double price3)        {            string choice;            Console.WriteLine("What quantity of " + item + " do you want to buy? (enter the number");            Console.WriteLine("Option '1' ( " + quant1 + " for $" + price1);            Console.WriteLine("Option '2' ( " + quant2 + " for $" + price2);            Console.WriteLine("Option '3' ( " + quant3 + " for $" + price3);            Console.WriteLine("or type 'back' to go back to the last menue");            choice = Console.ReadLine();            while (choice != "1" && choice != "2" && choice != "3" && choice != "back")            {                choice = RetryGetUserInput("not a valid entry, please type '1','2','3', or 'back'");            }            switch (choice)            {                case "1":                    PurchaseItems(item, quant1, price1);                    break;                case "2":                    PurchaseItems(item, quant2, price2);                    break;                case "3":                    PurchaseItems(item, quant3, price3);                    break;                case "back":                    GoToTheStore();                    break;            }        }
+        public void QuantityMenu(string item, int quant1, int quant2, int quant3, double price1, double price2, double price3)        {            string choice;            UserInterface.DisplayStoreQuantities(item, quant1, quant2, quant3, price1, price2, price3);            choice = Console.ReadLine();            while (choice != "1" && choice != "2" && choice != "3" && choice != "back")            {                choice = UserInterface.RetryGetUserInput("not a valid entry, please type '1','2','3', or 'back'");            }            switch (choice)            {                case "1":                    PurchaseItems(item, quant1, price1);                    break;                case "2":                    PurchaseItems(item, quant2, price2);                    break;                case "3":                    PurchaseItems(item, quant3, price3);                    break;                case "back":                    GoToTheStore();                    break;            }        }
 
 
-        public void PurchaseItems(string item, int quant, double price)        {            bool didBuy = player.wallet.CheckWallet(price);            if (didBuy == true)            {                Console.WriteLine("purchased " + quant + " " + item + " for $" + price);                player.inventory.AddItemsToInventory(quant, item);
-
-                Console.WriteLine("remaining money $" + player.wallet.Money);                UserInterface.DisplayInventory(player);                GoToTheStore();            }            else            {                UserInterface.NotEnoughMoney();                
-                            }        }
+        public void PurchaseItems(string item, int quant, double price)        {            bool didBuy = player.wallet.CheckWallet(price);            if (didBuy == true)            {                UserInterface.ConfirmPurchase(item, quant, price, player);                player.inventory.AddItemsToInventory(quant, item);                                UserInterface.DisplayInventory(player);                GoToTheStore();            }            else            {                UserInterface.NotEnoughMoney();                            }        }
 
 
 
@@ -80,19 +77,7 @@ namespace LemonadeStandV2
 
 
 
-        public string GetUserInput(string message)
-        {
-            Console.WriteLine(message);
-            return Console.ReadLine();
-        }
-
-        public string RetryGetUserInput(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(message);
-            Console.ResetColor();
-            return Console.ReadLine();
-        }
+   
 
     }
 }

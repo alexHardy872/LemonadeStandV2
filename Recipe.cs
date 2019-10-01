@@ -41,9 +41,9 @@ namespace LemonadeStandV2
         }
         public string ChangeInput()        {
 
-            string input;                                                       input = GetUserInput("To mofify the recipe, type 'lemons', 'sugar', 'ice', 'price', or when you are ready press 'start'").ToLower();                                while(input != "price" && input != "lemons" && input != "sugar" && input != "ice" && input != "start")
+            string input;                                                       input = UserInterface.GetUserInput("To mofify the recipe, type 'lemons', 'sugar', 'ice', 'price', or when you are ready press 'start'").ToLower();                                while(input != "price" && input != "lemons" && input != "sugar" && input != "ice" && input != "start")
             {
-                input = RetryGetUserInput(input+" is not a valid respone, try again!").ToLower();
+                input = UserInterface.RetryGetUserInput(input+" is not a valid respone, try again!").ToLower();
             }
 
             return input;                    }
@@ -56,16 +56,16 @@ namespace LemonadeStandV2
         switch (input)
         {
             case "lemons":
-                amountOfLemons = Int32.Parse(GetUserInput("How many lemons do you want in each pitcher?"));         
+                amountOfLemons = Int32.Parse(UserInterface.GetUserInput("How many lemons do you want in each pitcher?"));         
                 break;
             case "sugar":
-                amountOfSugarCups = Int32.Parse(GetUserInput("How much sugar do you want in each pitcher?"));          
+                amountOfSugarCups = Int32.Parse(UserInterface.GetUserInput("How much sugar do you want in each pitcher?"));          
                 break;
             case "ice":
-                amountOfIceCubes = Int32.Parse(GetUserInput("How much Ice do you want in each cup?"));               
+                amountOfIceCubes = Int32.Parse(UserInterface.GetUserInput("How much Ice do you want in each cup?"));               
                 break;
             case "price":
-                    pricePerCup = Double.Parse(GetUserInput("What do you want to charge per cup? ($0.01 = $1.00"));
+                    pricePerCup = Double.Parse(UserInterface.GetUserInput("What do you want to charge per cup? ($0.01 = $1.00"));
                     break;
             case "start":
                     leaveRecipe = true;
@@ -81,19 +81,7 @@ namespace LemonadeStandV2
 
 
 
-        public string GetUserInput(string message)
-        {
-            Console.WriteLine(message);
-            return Console.ReadLine();
-        }
-
-        public string RetryGetUserInput(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(message);
-            Console.ResetColor();
-            return Console.ReadLine();
-        }
+       
 
     }
 }
