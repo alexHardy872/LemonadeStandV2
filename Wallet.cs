@@ -14,8 +14,11 @@ namespace LemonadeStandV2
 
         public Wallet()
         {
+            money = 20;
         }
 
+
+      
 
 
 

@@ -8,6 +8,12 @@ namespace LemonadeStandV2
         {
 
 
+            Game game = new Game();
+            game.StartGame();
+
+
+
+
         }
     }
 }

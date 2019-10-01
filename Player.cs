@@ -9,13 +9,18 @@ namespace LemonadeStandV2
         public Wallet wallet;
         public Recipe recipe;
         public Pitcher pitcher;
-        public double buisness Profits;
+        public double buisnessProfits;
 
 
 
         public Player()
         {
+            inventory = new Inventory();
+            wallet = new Wallet();
+            recipe = new Recipe();
+            pitcher = new Pitcher();
         }
+
 
 
 
