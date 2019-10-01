@@ -21,9 +21,25 @@ namespace LemonadeStandV2
             pitcher = new Pitcher();
         }
 
+        /*
+
+        public void SubtractPitcherFromInventory()
+        {
+
+            // in one pitcher
+            int lemons = recipe.amountOfLemons;
+            int sugarCups = recipe.amountOfSugarCups;
+            int iceCubes = recipe.amountOfIceCubes * 12;
+            int cups = recipe.amountOfSugarCups * 12;
+
+            inventory.lemons.
 
 
+                // for amount of lemons ; list.RemoveAt(o);
+                // if amount not enough (list length) SOLD OUT!
 
+
+        } */
 
 
     }

@@ -42,10 +42,11 @@ namespace LemonadeStandV2
 
                 player.recipe.GoToRecipe();
 
-                RunDay();
-               
-            
+                //RunDay();
 
+
+                // MELT THE ICE
+                player.inventory.iceCubes.RemoveRange(0, player.inventory.iceCubes.Count);
                 //total profits (money at start of day minus money at end)
 
                 currentDay++;
@@ -95,6 +96,25 @@ namespace LemonadeStandV2
         public void RunDay()
         {
 
+
+            // subtract pitcher from inventory
+
+
+
+            int cupsLeft = player.pitcher.cupsLeftInPitcher;
+
+            List<Customer> customers = days[currentDay].customers;
+            foreach (Customer customer in customers)
+                {
+
+                bool didBuy = customer.CustomerApproachesStand(player.recipe.pricePerCup);
+                if (didBuy == true)
+                {
+
+
+                }
+
+            }
             // act out day
 
             // pour pitcher

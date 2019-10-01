@@ -34,14 +34,14 @@ namespace LemonadeStandV2
         public static void SevenDayForcast(List<Day> days, Day day, int currentDay)
         {
             int daysLeft = days.Count - currentDay;
-            int daysAhead = Limiter(daysLeft, 0, 8);
+            int daysAhead = Limiter(daysLeft, 0, 6);
 
             if (daysAhead > 1)
             {           
-                for (int i = currentDay + 1; i < daysAhead; i++)
+                for (int i = currentDay  ; i < currentDay+daysAhead; i++)
                 {
                     string forcast = days[i].weather.SendPredictedWeather();
-                    Console.WriteLine("Day " + i + " forcast " + forcast);           
+                    Console.WriteLine("Day " + (i+1) + " forcast " + forcast);           
                 }
             }
             if (daysAhead == 1)
@@ -102,6 +102,18 @@ namespace LemonadeStandV2
             Console.WriteLine("Price per cup = $" + pricePerCup);            Console.WriteLine();
         }
 
+
+
+        public static void DisplayDayResult(int cupsSold, double profit)
+        {
+
+
+        }
+
+
+
+        /// HELPERS
+        ///
 
         public static string GetUserInput(string message)
         {

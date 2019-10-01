@@ -7,7 +7,6 @@ namespace LemonadeStandV2
         public Weather weather;
         public List<Customer> customers;
         public int name;
-        public Random rand;
         public int crowd;
 
 
@@ -17,7 +16,7 @@ namespace LemonadeStandV2
             name = day;
             weather = new Weather();
             customers = new List<Customer> { };
-            crowd = RandomNumber(60, 120);
+            crowd = UserInterface.RandomNumber(60, 120);
             MultiplyCustomers();
 
         }
@@ -40,7 +39,7 @@ namespace LemonadeStandV2
 
 
 
-        public int RandomNumber(int min, int max)        {            rand = new Random();            int num = rand.Next(min, max);            return num;        }
+      
 
 
 

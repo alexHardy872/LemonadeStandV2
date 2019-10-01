@@ -11,7 +11,10 @@ namespace LemonadeStandV2
             cupsLeftInPitcher = 12;
         }
 
-
+        // ice x 12
+        // cup x 12
+        // lemons
+        // sugar
 
     }
 }

@@ -25,6 +25,16 @@ namespace LemonadeStandV2
         public void AddItemsToInventory(int quantity, string item)        {            switch (item)            {                case "cups":                    for (int i = 0; i < quantity; i++)                    {                        Cup cup = new Cup();                        cups.Add(cup);                    }                    break;                case "lemons":                    for (int i = 0; i < quantity; i++)                    {                        Lemon lemon = new Lemon();                        lemons.Add(lemon);                    }                    break;                case "sugar":                    for (int i = 0; i < quantity; i++)                    {                        SugarCup sug = new SugarCup();                        sugarCups.Add(sug);                    }                    break;                case "ice":                    for (int i = 0; i < quantity; i++)                    {                        IceCube ice = new IceCube();                        iceCubes.Add(ice);                    }                    break;            }
         }
 
+        public void RemoveItemsFromInventory(string item , int quantity )
+        {
+            switch (item)            {                case "cups":                    for (int i = 0; i < quantity; i++)                    {                                             cups.RemoveAt(0);                    }                    break;                case "lemons":                    for (int i = 0; i < quantity; i++)                    {                        lemons.RemoveAt(0);                    }                    break;                case "sugar":                    for (int i = 0; i < quantity; i++)                    {                        sugarCups.RemoveAt(0);                    }                    break;                case "ice":                    for (int i = 0; i < quantity; i++)                    {                        iceCubes.RemoveAt(0);                    }                    break;            }
+
+
+
+
+
+        }
+
 
 
       

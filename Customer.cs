@@ -17,7 +17,7 @@ namespace LemonadeStandV2
 
         }
 
-        public void CalculateLikelyToBuy(double price)
+        public double CalculateLikelyToBuy(double price)
         {
             double tempFactor = 100 * temp;
             double priceFactor = 100 - price;
@@ -25,10 +25,10 @@ namespace LemonadeStandV2
             double weatherFactor = DetermineWeatherFactor();
 
             likelyToBuy = (tempFactor + weatherFactor + priceFactor + customerVarietyFactor) / 4;
-            
-
-            
+            return likelyToBuy;
         }
+
+
 
 
         public double DetermineWeatherFactor()
@@ -51,9 +51,20 @@ namespace LemonadeStandV2
         }
 
 
-        public void CustomerApproachesStand()
+        public bool CustomerApproachesStand(double price)
         {
-
+            double likely = CalculateLikelyToBuy(price);
+            double chance = UserInterface.RandomNumber(0, 100);
+            if (likely < chance) /// is the chance (out of 100) beyond the range they are likely to buy
+            {
+                didBuy = false;
+                return false;
+            }
+            else
+            {
+                didBuy = true;
+                return true;
+            }
 
         }
 
