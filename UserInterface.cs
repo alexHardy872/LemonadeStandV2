@@ -31,6 +31,13 @@ namespace LemonadeStandV2
             
         }
 
+        public static void DisplayWeather(Day dayIn)
+        {
+            string forcast = dayIn.weather.SendActualWeather();
+            Console.WriteLine("Today's weather is " + forcast);
+
+        }
+
         public static void SevenDayForcast(List<Day> days, Day day, int currentDay)
         {
             int daysLeft = days.Count - currentDay;
@@ -112,7 +119,7 @@ namespace LemonadeStandV2
 
             Console.WriteLine("DAY " + currentDay + " RESULTS:");
             Console.WriteLine();
-            Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers");
+            Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers for a total of $"+profit);
         }
 
 

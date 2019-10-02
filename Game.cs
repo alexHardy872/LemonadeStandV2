@@ -97,7 +97,7 @@ namespace LemonadeStandV2
         {
 
 
-            // subtract pitcher from inventory
+            UserInterface.DisplayWeather(days[currentDay - 1]);
 
 
             int cupsSold = 0;
@@ -108,7 +108,7 @@ namespace LemonadeStandV2
             bool soldOut = false;
 
 
-            //List<Customer> customers = days[currentDay].customers;
+            
 
             foreach (Customer customer in days[currentDay-1].customers)
                 {
@@ -138,16 +138,13 @@ namespace LemonadeStandV2
                             soldOut = false;
                         }
                     }
-                }
-
-
-                UserInterface.DisplayDayResult(cupsSold, dailyGross , days[currentDay], currentDay);
+                } 
 
             }
 
+            player.wallet.Money += dailyGross;
+            UserInterface.DisplayDayResult(cupsSold, dailyGross, days[currentDay-1], currentDay);
 
-
-         
         }
 
 
