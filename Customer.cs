@@ -17,14 +17,14 @@ namespace LemonadeStandV2
 
         }
 
-        public double CalculateLikelyToBuy(double price)
+        public double CalculateLikelyToBuy()
         {
             double tempFactor = temp;
-            double priceFactor = (1 - price)*100;
+           
             double customerVarietyFactor = UserInterface.RandomNumber(0, 100);
             double weatherFactor = DetermineWeatherFactor();
 
-            likelyToBuy = (tempFactor + weatherFactor + priceFactor + customerVarietyFactor) / 4;
+            likelyToBuy = (tempFactor + weatherFactor  + customerVarietyFactor) / 3;
             return likelyToBuy;
         }
 
@@ -40,38 +40,43 @@ namespace LemonadeStandV2
             return recipeFactor;
         }
 
+
         public double CalculateLemonsFactor(int lemonsPerPitcher)
         {
             double lemonsFactor = Convert.ToDouble(UserInterface.Limiter(lemonsPerPitcher * 10, 0, 10));
 
-            return lemonsFactor;
+            return lemonsFactor*10;
         }
+
 
         public double CalculateSugarFactor(int sugarCupsPerPitcher)
         {
             double sugarFactor = Convert.ToDouble(UserInterface.Limiter(sugarCupsPerPitcher * 10, 0, 10));
 
-            return sugarFactor;
+            return sugarFactor*10;
         }
+
 
         public double CalculateSweetSourRatio(int lemonsPerPitcher, int sugarCupsPerPitcher)
         {
             double sweetSourFactor;
 
-            if (lemonsPerPitcher < (2*sugarCupsPerPitcher) || (2*lemonsPerPitcher) > sugarCupsPerPitcher)
-            {
-                sweetSourFactor = 0;
-            }
-            else if (lemonsPerPitcher == sugarCupsPerPitcher)
+            if (lemonsPerPitcher == sugarCupsPerPitcher)
             {
                 sweetSourFactor = 100;
             }
+            else if (lemonsPerPitcher/sugarCupsPerPitcher > 2 || sugarCupsPerPitcher/lemonsPerPitcher >2 )
+            {
+                sweetSourFactor = 0;
+            }
+           
             else
             {
                 sweetSourFactor = 50;
             }
             return sweetSourFactor;
         }
+
 
         public double CalculateIceFactor(int iceCubesPerCup)
         {
@@ -85,7 +90,7 @@ namespace LemonadeStandV2
             }
             else
             {
-                iceFactor = 100 - Math.Abs((tempRatio - iceCubesPerCup) * 100);
+                iceFactor = 100 - (Math.Abs((tempRatio - iceCubesPerCup) * 10));
             }
 
             return iceFactor;
@@ -115,10 +120,11 @@ namespace LemonadeStandV2
 
         public bool CustomerApproachesStand(double price, int ice, int lemons, int sugar)
         {
-            double weatherAndPriceFactors = CalculateLikelyToBuy(price);
+            double weatherAndPriceFactors = CalculateLikelyToBuy();
             double recipeFactors = CombineRecipeeFactors(lemons, sugar, ice);
+            double priceFactor = (1 - price) * 100;
 
-            double likely = (weatherAndPriceFactors * .6) + (recipeFactors * .4);
+            double likely = (weatherAndPriceFactors * .3) + (recipeFactors * .2) + (priceFactor * .5);
 
             double chance = UserInterface.RandomNumber(0, 100);
             if (likely < chance) /// is the chance (out of 100) beyond the range they are likely to buy

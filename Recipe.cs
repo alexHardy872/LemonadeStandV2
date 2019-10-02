@@ -54,19 +54,21 @@ namespace LemonadeStandV2
 
     public void ChangeRecipeSwitch(string input)
     {
+
+        
         switch (input)
         {
             case "lemons":
-                amountOfLemons = Int32.Parse(UserInterface.GetUserInput("How many lemons do you want in each pitcher?"));         
+                amountOfLemons = UserInterface.IntGetUserInput("How many lemons do you want in each pitcher?");         
                 break;
             case "sugar":
-                amountOfSugarCups = Int32.Parse(UserInterface.GetUserInput("How much sugar do you want in each pitcher?"));          
+                amountOfSugarCups = UserInterface.IntGetUserInput("How much sugar do you want in each pitcher?");          
                 break;
             case "ice":
-                amountOfIceCubes = Int32.Parse(UserInterface.GetUserInput("How much Ice do you want in each cup?"));               
+                amountOfIceCubes = UserInterface.IntGetUserInput("How much Ice do you want in each cup?");               
                 break;
             case "price":
-                    pricePerCup = Double.Parse(UserInterface.GetUserInput("What do you want to charge per cup? ($0.01 = $1.00"));
+                    pricePerCup = UserInterface.GetUserPriceInput("What do you want to charge per cup? ($0.01 = $1.00"); // double
                     break;
             case "start":
                     leaveRecipe = true;

@@ -68,6 +68,15 @@ namespace LemonadeStandV2
             Console.WriteLine();
         }
 
+        public static void DisplayPostInventory(Player player)
+        {
+            Console.WriteLine("Here is your remaining Inventory");
+            DisplayInventory(player);
+            Console.WriteLine("Your rmaining ice melted!");
+            Console.WriteLine();
+            Console.ReadLine();
+        }
+
 
 
         public static void DisplayStoreMenu()
@@ -114,7 +123,9 @@ namespace LemonadeStandV2
         public static void SoldOut()
             {
             Console.WriteLine("You sold out! Not enough inventory to keep making lemonade!");
+            Console.ReadLine();
         }
+
         public static void DisplayDayResult(int cupsSold, double profit, Day day, int currentDay)
         {
             Console.Clear();
@@ -124,6 +135,7 @@ namespace LemonadeStandV2
             Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers for a total of $"+profit);
             Console.WriteLine();
             Console.WriteLine("Press Enter to adance to next day");
+            Console.ReadLine();
 
         }
 
@@ -147,21 +159,65 @@ namespace LemonadeStandV2
             return Console.ReadLine();
         }
 
-        public static bool ValidateInt(string input)
-        {
-            // TRY PARSE
-            return false;
 
-            return true;
+
+
+        public static int IntGetUserInput(string message)
+        {
+            int output;
+            string test = GetUserInput(message);
+
+            try
+            {
+                output = Int32.Parse(test);
+            }
+            catch (Exception)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Not a valid number input, please try again");
+                Console.ResetColor();
+
+                return IntGetUserInput(message);
+            }
+
+            return output;
         }
 
-        public static bool ValidateDouble(string input)
+        public static double GetUserPriceInput(string message)
         {
-            // TRY PARSE
-            return false;
+            double output;
+            string test = GetUserInput(message);
 
-            return true;
+            try
+            {
+                output = Double.Parse(test);
+            }
+            catch (Exception)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Not a valid number input, please try again");
+                Console.ResetColor();
+
+                return IntGetUserInput(message);
+            }
+
+            output = DLimiter(Math.Floor(output * 100d) / 100d, .01, 1);
+
+            
+            return output;
         }
+
+
+
+
+
+        public static double DollarFormat(double money)
+        {
+            return money;
+        }
+
+
+
 
 
         public static void NotEnoughMoney()
@@ -196,6 +252,66 @@ namespace LemonadeStandV2
             
         }
 
+        public static double DLimiter(double input, double min, double max)
+        {
+            if (input > max)
+            {
+                return max;
+            }
+            else if (input < min)
+            {
+                return min;
+            }
+            else
+            {
+                return input;
+            }
+
+        }
+
+        public static void DisplayTotalProfit(double gross, int days)
+        {
+            Console.WriteLine("Season Finished!");
+            Console.WriteLine();
+            Console.WriteLine("In " + days + " days you ");
+
+            if (gross > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Profited $" + gross);
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("Lost $" + gross);
+                Console.ResetColor();
+            }
+        }
+
+
+        public static bool PlayAgainMenu()
+        {
+            string input = GetUserInput("Play again? 'yes' or 'no'");
+
+            while (input!= "yes" && input != "no")
+            {
+                input = RetryGetUserInput("not a valid response type 'yes' or 'no'");
+              
+            }
+            if (input == "yes")
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+         
+
+
+
+        }
 
     }
 }

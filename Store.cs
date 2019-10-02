@@ -59,6 +59,7 @@ namespace LemonadeStandV2
                     break;
                 case "done":
                     leaveStore = true;
+                    Console.Clear();
                     break;
 
             }

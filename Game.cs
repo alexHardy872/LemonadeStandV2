@@ -1,4 +1,5 @@
 ﻿using System;using System.Collections.Generic;using System.Linq;using System.Text;using System.Threading.Tasks;
+using System.Threading;
 
 namespace LemonadeStandV2
 {
@@ -18,48 +19,38 @@ namespace LemonadeStandV2
 
         public void StartGame()
         {
-            UserInterface.Welcome();
-
-            SetGameLength();
-            
-            CreateAllDays();
-            
-            CreatePlayer();
-
-            currentDay = 1;
-
-            
-            for (int i = 0; i < days.Count; i++)
+            bool playAgain = false;
+            do
             {
-                Console.Clear();
+                UserInterface.Welcome();
 
-                UserInterface.DisplayDay(currentDay);
-                UserInterface.DisplayForcast(days[i]);
-                UserInterface.SevenDayForcast(days, days[i], currentDay);
-
-                UserInterface.DisplayInventory(player);
-                
-                GoToStore();
-
-                
-
-                player.recipe.GoToRecipe();
-
-                RunDay();
-
-               
-                // MELT THE ICE
-                player.inventory.iceCubes.RemoveRange(0, player.inventory.iceCubes.Count);
-                //total profits (money at start of day minus money at end)
-
-                currentDay++;
-            }
-
-            // total profit from day 1;
+                SetGameLength();
+                CreateAllDays();
+                CreatePlayer();
+                currentDay = 1;
 
 
+                for (int i = 0; i < days.Count; i++)
+                {
+                    Console.Clear();
 
+                    UserInterface.DisplayDay(currentDay);
+                    UserInterface.DisplayForcast(days[i]);
+                    UserInterface.SevenDayForcast(days, days[i], currentDay);
+                    UserInterface.DisplayInventory(player);
+                    GoToStore();
+                    player.recipe.GoToRecipe();
+                    RunDay();  
+                    player.inventory.iceCubes.RemoveRange(0, player.inventory.iceCubes.Count);
+                    UserInterface.DisplayPostInventory(player);
+                    currentDay++;
+                }
+                EndGame();
+                playAgain = UserInterface.PlayAgainMenu();
 
+            } while (playAgain == true);
+
+            Environment.Exit(0);
         }
 
         public void CreatePlayer()
@@ -79,14 +70,6 @@ namespace LemonadeStandV2
 
 
 
-     
-        
-
-
-      
-
-   
-        
 
         public void GoToStore()
         {
@@ -103,12 +86,24 @@ namespace LemonadeStandV2
 
             int cupsSold = 0;
             double dailyGross = 0;
-
-
-            bool soldOut = false;         
+            player.pitcher.cupsLeftInPitcher = 0;
+            bool soldOut = false;
 
             foreach (Customer customer in days[currentDay-1].customers)
                 {
+
+                if (player.pitcher.cupsLeftInPitcher == 0)
+                {
+                    bool successfulPour = player.PourPitcher();
+                    if (successfulPour == false)
+                    {
+                        soldOut = true;
+                        UserInterface.SoldOut();
+                        break;
+                        
+                    }
+
+                }
 
                 bool didBuy = customer.CustomerApproachesStand(player.recipe.pricePerCup, player.recipe.amountOfIceCubes, player.recipe.amountOfLemons, player.recipe.amountOfSugarCups);
                 if (didBuy == true)
@@ -118,29 +113,22 @@ namespace LemonadeStandV2
                     player.pitcher.cupsLeftInPitcher -= 1;
                     cupsSold += 1;
 
-                    if (player.pitcher.cupsLeftInPitcher == 0)
-                    {
-                        bool successfulPour = player.PourPitcher(); // have return bool
-                        if (successfulPour == false)
-                        {
-                            soldOut = true;
-                            UserInterface.SoldOut();
-                        }
-                        else
-                        {
-                            soldOut = false;
-                        }
-                    }
+                
                 } 
 
             }
 
             player.wallet.Money += dailyGross;
             UserInterface.DisplayDayResult(cupsSold, dailyGross, days[currentDay-1], currentDay);
+            Thread.Sleep(2000);
 
         }
 
 
-
+        public void EndGame()
+        {
+            double totalProfit = player.wallet.Money - 20;
+            UserInterface.DisplayTotalProfit(totalProfit, days.Count);
+        }
     }
 }
