@@ -8,21 +8,21 @@ namespace LemonadeStandV2
 
 
         public static void Welcome()
-        {            Console.WriteLine("Welcome to Lemonade Stand! Press ENTER to begin!");
+        {            Console.Clear();            Console.WriteLine("Welcome to Lemonade Stand! Press ENTER to begin!");
             Console.ReadLine();            Console.Clear();
         }
 
-        public static void DisplayDay(int currentDay)
+        public static void DisplayDay(int currentDay, List<Day> days)
         {
             Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Day " + currentDay);
+            Console.WriteLine("Day " + currentDay+" of "+days.Count);
             Console.ResetColor();
 
         }
 
         public static void DisplayMoney(Player player)
         {
-            Console.WriteLine("You have $" + player.wallet.Money);
+            Console.WriteLine("You have $" + FormatDouble(player.wallet.Money));
         }
 
         public static void DisplayForcast(Day dayIn)
@@ -39,10 +39,11 @@ namespace LemonadeStandV2
 
         }
 
-        public static void SevenDayForcast(List<Day> days, Day day, int currentDay)
+        public static void SevenDayForcast(List<Day> days, int currentDay)
         {
             int daysLeft = days.Count - currentDay;
-            int daysAhead = Limiter(daysLeft, 0, 6);
+            int daysAhead = Limiter(daysLeft, 0, 7);
+            Console.WriteLine("Upcoming weather...");
 
             if (daysAhead > 1)
             {           
@@ -61,6 +62,8 @@ namespace LemonadeStandV2
         }
 
 
+
+
         public static void DisplayInventory(Player player)
         {
 
@@ -77,6 +80,14 @@ namespace LemonadeStandV2
             Console.ReadLine();
         }
 
+        public static void DisplayMenu()
+        {
+            Console.WriteLine("Menu");
+            Console.WriteLine();
+            Console.WriteLine("'store' , 'recipe' , 'start' , 'quit', or 'forcast' (7 day forcast)");
+            Console.WriteLine();
+        }
+
 
 
         public static void DisplayStoreMenu()
@@ -89,7 +100,7 @@ namespace LemonadeStandV2
             Console.WriteLine("Lemons? type 'lemons'");
             Console.WriteLine("Sugar? type 'sugar'");
             Console.WriteLine("Ice Cubes? type 'ice'");
-            Console.WriteLine("Advance to recipe? type 'done'");
+            Console.WriteLine("Back to game menu? type 'done'");
             Console.WriteLine();
 
         }
@@ -104,19 +115,23 @@ namespace LemonadeStandV2
         {
 
             Console.WriteLine("purchased " + quant + " " + item + " for $" + price);
-            Console.WriteLine("remaining money $" + player.wallet.Money);
+            Console.WriteLine("remaining money $" + FormatDouble(player.wallet.Money));
         }
 
-        public static void DisplayRecipeMenu()
-        {
-
-        }
+     
 
         public static void DisplayRecipe(int amountOfLemons, int amountOfSugarCups, int amountOfIceCubes, double pricePerCup)
         {
             Console.WriteLine("Current Recipe");            Console.WriteLine();
             Console.WriteLine("Lemons per pitcher = " + amountOfLemons);            Console.WriteLine("Sugar per pitcher = " + amountOfSugarCups);            Console.WriteLine("IceCubes per glass = " + amountOfIceCubes); // X 12 is per pitcher
             Console.WriteLine("Price per cup = $" + pricePerCup);            Console.WriteLine();
+        }
+
+        public static void DisplayRecipe(Player player)
+        {
+            Console.WriteLine("Current Recipe");            Console.WriteLine();
+            Console.WriteLine("Lemons per pitcher = " + player.recipe.amountOfLemons);            Console.WriteLine("Sugar per pitcher = " + player.recipe.amountOfSugarCups);            Console.WriteLine("IceCubes per glass = " + player.recipe.amountOfIceCubes); // X 12 is per pitcher
+            Console.WriteLine("Price per cup = $" + player.recipe.pricePerCup);            Console.WriteLine();
         }
 
 
@@ -132,9 +147,9 @@ namespace LemonadeStandV2
             Console.WriteLine("DAY " + currentDay + " RESULTS:");
             Console.WriteLine();
             Thread.Sleep(1000);
-            Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers for a total of $"+profit);
+            Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers for a total of $"+FormatDouble(profit));
             Console.WriteLine();
-            Console.WriteLine("Press Enter to adance to next day");
+            Console.WriteLine("Press Enter to advance to next day");
             Console.ReadLine();
 
         }
@@ -210,10 +225,21 @@ namespace LemonadeStandV2
 
 
 
-
-        public static double DollarFormat(double money)
+        public static double FormatDouble(double input)
         {
-            return money;
+            double output = Math.Floor(input * 100d) / 100d;
+            return output;
+        }
+
+
+
+
+
+        public static void Error(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
 
@@ -307,10 +333,19 @@ namespace LemonadeStandV2
             {
                 return false;
             }
-         
 
 
+        }
 
+
+        public static string YesOrNo(string input)
+        {
+            while (input.ToLower() != "yes" && input.ToLower() != "no")
+            {
+                input = RetryGetUserInput("Must type 'yes' or 'no'");
+            }
+
+            return input.ToLower();
         }
 
     }

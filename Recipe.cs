@@ -30,6 +30,7 @@ namespace LemonadeStandV2
 
             while (leaveRecipe != true)
             {
+                
                 UserInterface.DisplayRecipe(amountOfLemons, amountOfSugarCups, amountOfIceCubes, pricePerCup);
                 
                 ChangeRecipeSwitch(ChangeInput());
@@ -42,7 +43,7 @@ namespace LemonadeStandV2
         }
         public string ChangeInput()        {
 
-            string input;                                                       input = UserInterface.GetUserInput("To mofify the recipe, type 'lemons', 'sugar', 'ice', 'price', or when you are ready press 'start'").ToLower();                                while(input != "price" && input != "lemons" && input != "sugar" && input != "ice" && input != "start")
+            string input;                                                       input = UserInterface.GetUserInput("To mofify the recipe, type 'lemons', 'sugar', 'ice', 'price', or  'done'").ToLower();                                while(input != "price" && input != "lemons" && input != "sugar" && input != "ice" && input != "done")
             {
                 input = UserInterface.RetryGetUserInput(input+" is not a valid respone, try again!").ToLower();
             }
@@ -56,7 +57,7 @@ namespace LemonadeStandV2
     {
 
         
-        switch (input)
+        switch (input) // check against inventory
         {
             case "lemons":
                 amountOfLemons = UserInterface.IntGetUserInput("How many lemons do you want in each pitcher?");         
@@ -70,7 +71,7 @@ namespace LemonadeStandV2
             case "price":
                     pricePerCup = UserInterface.GetUserPriceInput("What do you want to charge per cup? ($0.01 = $1.00"); // double
                     break;
-            case "start":
+            case "done":
                     leaveRecipe = true;
                     break;
         }

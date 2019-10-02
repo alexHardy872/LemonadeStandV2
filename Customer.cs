@@ -35,6 +35,10 @@ namespace LemonadeStandV2
         public double CombineRecipeeFactors(int lemonsPerPitcher,int sugarCupsPerPitcher, int iceCubesPerCup )
         {
             double recipetotal = CalculateLemonsFactor(lemonsPerPitcher) + CalculateIceFactor(iceCubesPerCup) + CalculateSweetSourRatio(lemonsPerPitcher, sugarCupsPerPitcher) + CalculateSugarFactor(sugarCupsPerPitcher);
+            if (lemonsPerPitcher == 0 || sugarCupsPerPitcher == 0)
+            {
+                recipetotal = 0;
+            }
             double recipeFactor = (recipetotal / 4);
 
             return recipeFactor;
@@ -52,7 +56,7 @@ namespace LemonadeStandV2
         public double CalculateSugarFactor(int sugarCupsPerPitcher)
         {
             double sugarFactor = Convert.ToDouble(UserInterface.Limiter(sugarCupsPerPitcher * 10, 0, 10));
-
+            
             return sugarFactor*10;
         }
 
@@ -120,11 +124,16 @@ namespace LemonadeStandV2
 
         public bool CustomerApproachesStand(double price, int ice, int lemons, int sugar)
         {
-            double weatherAndPriceFactors = CalculateLikelyToBuy();
+            double weatherAndTempFactors = CalculateLikelyToBuy();
             double recipeFactors = CombineRecipeeFactors(lemons, sugar, ice);
             double priceFactor = (1 - price) * 100;
 
-            double likely = (weatherAndPriceFactors * .3) + (recipeFactors * .2) + (priceFactor * .5);
+            double likely = (weatherAndTempFactors * .3) + (recipeFactors * .4) + (priceFactor * .3);
+
+            if (recipeFactors < 1)
+            {
+                likely /= 4;
+            }
 
             double chance = UserInterface.RandomNumber(0, 100);
             if (likely < chance) /// is the chance (out of 100) beyond the range they are likely to buy
