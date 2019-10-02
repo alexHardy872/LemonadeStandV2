@@ -19,6 +19,7 @@ namespace LemonadeStandV2
         public void StartGame()
         {
             UserInterface.Welcome();
+
             SetGameLength();
             
             CreateAllDays();
@@ -30,15 +31,17 @@ namespace LemonadeStandV2
             
             for (int i = 0; i < days.Count; i++)
             {
+                Console.Clear();
+
                 UserInterface.DisplayDay(currentDay);
-               
-
                 UserInterface.DisplayForcast(days[i]);
-
                 UserInterface.SevenDayForcast(days, days[i], currentDay);
-                
 
+                UserInterface.DisplayInventory(player);
+                
                 GoToStore();
+
+                
 
                 player.recipe.GoToRecipe();
 
@@ -96,30 +99,20 @@ namespace LemonadeStandV2
         public void RunDay()
         {
 
-
             UserInterface.DisplayWeather(days[currentDay - 1]);
-
 
             int cupsSold = 0;
             double dailyGross = 0;
 
 
-
-            bool soldOut = false;
-
-
-            
+            bool soldOut = false;         
 
             foreach (Customer customer in days[currentDay-1].customers)
                 {
 
-
-
-                bool didBuy = customer.CustomerApproachesStand(player.recipe.pricePerCup);
+                bool didBuy = customer.CustomerApproachesStand(player.recipe.pricePerCup, player.recipe.amountOfIceCubes, player.recipe.amountOfLemons, player.recipe.amountOfSugarCups);
                 if (didBuy == true)
                 {
-
-
 
                     dailyGross += player.recipe.pricePerCup;
                     player.pitcher.cupsLeftInPitcher -= 1;

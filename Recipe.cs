@@ -26,6 +26,7 @@ namespace LemonadeStandV2
 
         public void GoToRecipe()
         {
+            leaveRecipe = false;
 
             while (leaveRecipe != true)
             {

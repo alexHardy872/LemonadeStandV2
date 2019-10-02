@@ -1,4 +1,5 @@
 ﻿using System;using System.Collections.Generic;using System.Linq;using System.Text;using System.Threading.Tasks;
+using System.Threading;
 
 namespace LemonadeStandV2
 {
@@ -116,10 +117,14 @@ namespace LemonadeStandV2
         }
         public static void DisplayDayResult(int cupsSold, double profit, Day day, int currentDay)
         {
-
+            Console.Clear();
             Console.WriteLine("DAY " + currentDay + " RESULTS:");
             Console.WriteLine();
+            Thread.Sleep(1000);
             Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers for a total of $"+profit);
+            Console.WriteLine();
+            Console.WriteLine("Press Enter to adance to next day");
+
         }
 
 

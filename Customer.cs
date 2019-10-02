@@ -29,12 +29,67 @@ namespace LemonadeStandV2
         }
 
 
-        // RECIPE FACTORS
 
-            // SUB 4 LEMONS
-            // SUB 4 SUGAR
-            // 2/1 RATIO LEMONS TO SUGAR
-            // ONE ICE FOR EVERY 10 DEGREES
+
+
+        public double CombineRecipeeFactors(int lemonsPerPitcher,int sugarCupsPerPitcher, int iceCubesPerCup )
+        {
+            double recipetotal = CalculateLemonsFactor(lemonsPerPitcher) + CalculateIceFactor(iceCubesPerCup) + CalculateSweetSourRatio(lemonsPerPitcher, sugarCupsPerPitcher) + CalculateSugarFactor(sugarCupsPerPitcher);
+            double recipeFactor = (recipetotal / 4);
+
+            return recipeFactor;
+        }
+
+        public double CalculateLemonsFactor(int lemonsPerPitcher)
+        {
+            double lemonsFactor = Convert.ToDouble(UserInterface.Limiter(lemonsPerPitcher * 10, 0, 10));
+
+            return lemonsFactor;
+        }
+
+        public double CalculateSugarFactor(int sugarCupsPerPitcher)
+        {
+            double sugarFactor = Convert.ToDouble(UserInterface.Limiter(sugarCupsPerPitcher * 10, 0, 10));
+
+            return sugarFactor;
+        }
+
+        public double CalculateSweetSourRatio(int lemonsPerPitcher, int sugarCupsPerPitcher)
+        {
+            double sweetSourFactor;
+
+            if (lemonsPerPitcher < (2*sugarCupsPerPitcher) || (2*lemonsPerPitcher) > sugarCupsPerPitcher)
+            {
+                sweetSourFactor = 0;
+            }
+            else if (lemonsPerPitcher == sugarCupsPerPitcher)
+            {
+                sweetSourFactor = 100;
+            }
+            else
+            {
+                sweetSourFactor = 50;
+            }
+            return sweetSourFactor;
+        }
+
+        public double CalculateIceFactor(int iceCubesPerCup)
+        {
+            double iceFactor;
+            
+            int tempRatio = (int)Math.Floor(Convert.ToDouble(temp / 10));
+
+            if (tempRatio == iceCubesPerCup)
+            {
+                iceFactor = 100;
+            }
+            else
+            {
+                iceFactor = 100 - Math.Abs((tempRatio - iceCubesPerCup) * 100);
+            }
+
+            return iceFactor;
+        }
 
 
 
@@ -58,9 +113,13 @@ namespace LemonadeStandV2
         }
 
 
-        public bool CustomerApproachesStand(double price)
+        public bool CustomerApproachesStand(double price, int ice, int lemons, int sugar)
         {
-            double likely = CalculateLikelyToBuy(price);
+            double weatherAndPriceFactors = CalculateLikelyToBuy(price);
+            double recipeFactors = CombineRecipeeFactors(lemons, sugar, ice);
+
+            double likely = (weatherAndPriceFactors * .6) + (recipeFactors * .4);
+
             double chance = UserInterface.RandomNumber(0, 100);
             if (likely < chance) /// is the chance (out of 100) beyond the range they are likely to buy
             {
