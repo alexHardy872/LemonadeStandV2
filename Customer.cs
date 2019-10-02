@@ -19,8 +19,8 @@ namespace LemonadeStandV2
 
         public double CalculateLikelyToBuy(double price)
         {
-            double tempFactor = 100 * temp;
-            double priceFactor = 100 - price;
+            double tempFactor = temp;
+            double priceFactor = (1 - price)*100;
             double customerVarietyFactor = UserInterface.RandomNumber(0, 100);
             double weatherFactor = DetermineWeatherFactor();
 
@@ -28,6 +28,13 @@ namespace LemonadeStandV2
             return likelyToBuy;
         }
 
+
+        // RECIPE FACTORS
+
+            // SUB 4 LEMONS
+            // SUB 4 SUGAR
+            // 2/1 RATIO LEMONS TO SUGAR
+            // ONE ICE FOR EVERY 10 DEGREES
 
 
 

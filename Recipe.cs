@@ -13,7 +13,7 @@ namespace LemonadeStandV2
 
         public Recipe()
         {
-            amountOfLemons = 0;            amountOfSugarCups = 0;            amountOfIceCubes = 0;            pricePerCup = 0;
+            amountOfLemons = 0;            amountOfSugarCups = 0;            amountOfIceCubes = 0;            pricePerCup = 0.01;
             leaveRecipe = false;
         }
 

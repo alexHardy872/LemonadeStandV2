@@ -42,9 +42,9 @@ namespace LemonadeStandV2
 
                 player.recipe.GoToRecipe();
 
-                //RunDay();
+                RunDay();
 
-
+               
                 // MELT THE ICE
                 player.inventory.iceCubes.RemoveRange(0, player.inventory.iceCubes.Count);
                 //total profits (money at start of day minus money at end)
@@ -100,29 +100,54 @@ namespace LemonadeStandV2
             // subtract pitcher from inventory
 
 
+            int cupsSold = 0;
+            double dailyGross = 0;
 
-            int cupsLeft = player.pitcher.cupsLeftInPitcher;
 
-            List<Customer> customers = days[currentDay].customers;
-            foreach (Customer customer in customers)
+
+            bool soldOut = false;
+
+
+            //List<Customer> customers = days[currentDay].customers;
+
+            foreach (Customer customer in days[currentDay-1].customers)
                 {
+
+
 
                 bool didBuy = customer.CustomerApproachesStand(player.recipe.pricePerCup);
                 if (didBuy == true)
                 {
 
 
+
+                    dailyGross += player.recipe.pricePerCup;
+                    player.pitcher.cupsLeftInPitcher -= 1;
+                    cupsSold += 1;
+
+                    if (player.pitcher.cupsLeftInPitcher == 0)
+                    {
+                        bool successfulPour = player.PourPitcher(); // have return bool
+                        if (successfulPour == false)
+                        {
+                            soldOut = true;
+                            UserInterface.SoldOut();
+                        }
+                        else
+                        {
+                            soldOut = false;
+                        }
+                    }
                 }
 
+
+                UserInterface.DisplayDayResult(cupsSold, dailyGross , days[currentDay], currentDay);
+
             }
-            // act out day
 
-            // pour pitcher
-            // subtract from inventory (ice *12)
 
-            // loop through customers to see if they buy
 
-            // add money as they buy
+         
         }
 
 

@@ -79,7 +79,7 @@ namespace LemonadeStandV2
 
         public static void DisplayStoreQuantities(string item, int quant1, int quant2, int quant3, double price1, double price2, double price3)
         {
-            Console.WriteLine("What quantity of " + item + " do you want to buy? (enter the number");            Console.WriteLine("Option '1' ( " + quant1 + " for $" + price1);            Console.WriteLine("Option '2' ( " + quant2 + " for $" + price2);            Console.WriteLine("Option '3' ( " + quant3 + " for $" + price3);            Console.WriteLine("or type 'back' to go back to the last menue");
+            Console.WriteLine("What quantity of " + item + " do you want to buy? (enter the number");            Console.WriteLine("Option '1' ( " + quant1 + " for $" + price1+")");            Console.WriteLine("Option '2' ( " + quant2 + " for $" + price2+")");            Console.WriteLine("Option '3' ( " + quant3 + " for $" + price3+")");            Console.WriteLine("or type 'back' to go back to the last menue");
 
         }
 
@@ -103,11 +103,16 @@ namespace LemonadeStandV2
         }
 
 
-
-        public static void DisplayDayResult(int cupsSold, double profit)
+        public static void SoldOut()
+            {
+            Console.WriteLine("You sold out! Not enough inventory to keep making lemonade!");
+        }
+        public static void DisplayDayResult(int cupsSold, double profit, Day day, int currentDay)
         {
 
-
+            Console.WriteLine("DAY " + currentDay + " RESULTS:");
+            Console.WriteLine();
+            Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers");
         }
 
 

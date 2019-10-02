@@ -7,8 +7,19 @@ namespace LemonadeStandV2
         private double money;
 
         public double Money
-        { get => money;
-            set => money = value;
+        {
+            get
+            {
+                return money;
+            }
+            set
+            {
+                if (value < 0)
+
+                    money = 0;
+                else
+                    money = value;
+            }
         }
 
 

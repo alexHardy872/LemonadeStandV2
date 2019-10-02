@@ -21,25 +21,31 @@ namespace LemonadeStandV2
             pitcher = new Pitcher();
         }
 
-        /*
+ 
 
-        public void SubtractPitcherFromInventory()
+        public bool PourPitcher()
         {
+            if (inventory.lemons.Count >= recipe.amountOfLemons && inventory.sugarCups.Count >= recipe.amountOfSugarCups && inventory.cups.Count >= 12 && inventory.iceCubes.Count >= recipe.amountOfIceCubes * 12)
+            {
+                inventory.lemons.RemoveRange(0, recipe.amountOfLemons);
+                inventory.sugarCups.RemoveRange(0, recipe.amountOfSugarCups);
+                inventory.cups.RemoveRange(0, 12);
+                inventory.iceCubes.RemoveRange(0, (recipe.amountOfIceCubes * 12));
+                pitcher.cupsLeftInPitcher = 12;
 
-            // in one pitcher
-            int lemons = recipe.amountOfLemons;
-            int sugarCups = recipe.amountOfSugarCups;
-            int iceCubes = recipe.amountOfIceCubes * 12;
-            int cups = recipe.amountOfSugarCups * 12;
+                return true;
+            }
+            else
+            {
+                return false; // SOLD OUT
+            }
 
-            inventory.lemons.
-
-
-                // for amount of lemons ; list.RemoveAt(o);
-                // if amount not enough (list length) SOLD OUT!
+            
+        }
 
 
-        } */
+
+
 
 
     }
