@@ -49,8 +49,17 @@ namespace LemonadeStandV2
             {           
                 for (int i = currentDay  ; i < currentDay+daysAhead; i++)
                 {
-                    string forcast = days[i].weather.SendPredictedWeather();
-                    Console.WriteLine("Day " + (i+1) + " forcast " + forcast);           
+                    if ( i == currentDay)
+                    {
+                        string forcast = days[i].weather.SendPredictedWeather();
+                        YellowHighlight("Day " + (currentDay + 1) + " forcast " + forcast);
+                    }
+                    else
+                    {
+                        string forcast = days[i].weather.SendPredictedWeather();
+                        Console.WriteLine("Day " + (i + 1) + " forcast " + forcast);
+                    }
+                           
                 }
             }
             if (daysAhead == 1)
@@ -59,6 +68,15 @@ namespace LemonadeStandV2
                 Console.WriteLine("Tomorrow's forcast is " + forcast);
                 Console.WriteLine();
             }
+        }
+
+        public static void YellowHighlight(string input)
+        {
+
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.Write(input);
+            Console.ResetColor();
+            Console.WriteLine("**");
         }
 
 
@@ -89,6 +107,32 @@ namespace LemonadeStandV2
         }
 
 
+        public static bool GoodToStart(Player player)
+        {
+            if (player.inventory.cups.Count == 0)
+            {
+                Error("WOAH! you have no cups in your inventory! You cant sell ANY lemonade without cups! Check your inventory and go back to the store!");
+                return false;
+            }
+            if (player.recipe.amountOfLemons == 0 || player.recipe.amountOfSugarCups == 0 || player.recipe.amountOfIceCubes == 0)
+            {
+                string sure = YesOrNo(RetryGetUserInput("One or more items in your recipe have a quantity of ZERO, proceed 'yes' or 'no'?"));
+                if (sure == "yes")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            if (player.inventory.lemons.Count < player.recipe.amountOfLemons || player.inventory.sugarCups.Count < player.recipe.amountOfSugarCups || player.inventory.iceCubes.Count < player.recipe.amountOfIceCubes)
+            {
+                Error("You have insufficient inventory to use your current recipee! change the recipe or go back to the store!");
+                return false;
+            }
+            return true;
+        }
 
         public static void DisplayStoreMenu()
         {
@@ -141,14 +185,14 @@ namespace LemonadeStandV2
             Console.ReadLine();
         }
 
-        public static void DisplayDayResult(int cupsSold, double profit, Day day, int currentDay)
+        public static void DisplayDayResult(int cupsSold, double profit, Day day, int currentDay, Player player)
         {
             Console.Clear();
             Console.WriteLine("DAY " + currentDay + " RESULTS:");
             Console.WriteLine();
             Thread.Sleep(1000);
             Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers for a total of $"+FormatDouble(profit));
-            Console.WriteLine();
+            Console.WriteLine("Current total money "+player.wallet.Money);
             Console.WriteLine("Press Enter to advance to next day");
             Console.ReadLine();
 
@@ -296,10 +340,10 @@ namespace LemonadeStandV2
         }
 
 
-        public static void DisplayPurchase()
+        public static void DisplayPurchase(double gross)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("$$ Customer bought lemonade $$");
+            Console.WriteLine("$$ Customer bought lemonade $$ daily total $"+FormatDouble(gross));
             Console.ResetColor();
             Thread.Sleep(100);
         }
@@ -324,13 +368,13 @@ namespace LemonadeStandV2
             if (gross > 0)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("Profited $" + gross);
+                Console.WriteLine("Profited $" + gross);
                 Console.ResetColor();
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Lost $" + Math.Abs(gross)) ;
+                Console.WriteLine("Lost $" + Math.Abs(gross)) ;
                 Console.ResetColor();
             }
         }

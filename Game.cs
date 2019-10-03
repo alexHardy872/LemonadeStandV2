@@ -41,7 +41,7 @@ namespace LemonadeStandV2
                     do
                     {
                         GoToMenu();
-                        start = GoodToStart();
+                        start = UserInterface.GoodToStart(player);
                     }
                     while (start == false);
 
@@ -116,32 +116,7 @@ namespace LemonadeStandV2
             }
             }
 
-        public bool GoodToStart()
-        {
-            if (player.inventory.cups.Count == 0)
-            {
-                UserInterface.Error("WOAH! you have no cups in your inventory! You cant sell ANY lemonade without cups! Check your inventory and go back to the store!");
-                return false;
-            }
-            if (player.recipe.amountOfLemons == 0 || player.recipe.amountOfSugarCups == 0 || player.recipe.amountOfIceCubes == 0)
-            {   
-                string sure = UserInterface.YesOrNo(UserInterface.RetryGetUserInput("One or more items in your recipe have a quantity of ZERO, proceed 'yes' or 'no'?"));
-                if (sure == "yes")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            if (player.inventory.lemons.Count < player.recipe.amountOfLemons || player.inventory.sugarCups.Count < player.recipe.amountOfSugarCups || player.inventory.iceCubes.Count < player.recipe.amountOfIceCubes)
-            {
-                UserInterface.Error("You have insufficient inventory to use your current recipee! change the recipe or go back to the store!");
-                return false;
-            }
-            return true;
-        }
+   
 
 
         public void GoToStore()
@@ -184,8 +159,9 @@ namespace LemonadeStandV2
                     }
                     else
                     {
-                        UserInterface.DisplayPurchase();
+                        
                         dailyGross += player.recipe.pricePerCup;
+                        UserInterface.DisplayPurchase(dailyGross);
                         cupsSold += 1;
                     }
                 }
@@ -197,7 +173,7 @@ namespace LemonadeStandV2
 
             player.pitcher.cupsLeftInPitcher = 0;
             player.wallet.Money += dailyGross;
-            UserInterface.DisplayDayResult(cupsSold, dailyGross, days[currentDay-1], currentDay);
+            UserInterface.DisplayDayResult(cupsSold, dailyGross, days[currentDay-1], currentDay, player);
             
 
         }
