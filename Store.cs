@@ -36,7 +36,7 @@ namespace LemonadeStandV2
         {
             string input;
 
-            input = Console.ReadLine();
+            input = Console.ReadLine().ToLower();
 
             while (input != "cups" && input != "lemons" && input != "sugar" && input != "ice" && input != "done")
             {

@@ -75,7 +75,7 @@ namespace LemonadeStandV2
         {
             Console.WriteLine("Here is your remaining Inventory");
             DisplayInventory(player);
-            Console.WriteLine("Your rmaining ice melted!");
+            Console.WriteLine("Your remaining ice melted!");
             Console.WriteLine();
             Console.ReadLine();
         }
@@ -295,11 +295,31 @@ namespace LemonadeStandV2
 
         }
 
+
+        public static void DisplayPurchase()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("$$ Customer bought lemonade $$");
+            Console.ResetColor();
+            Thread.Sleep(100);
+        }
+
+        public static void DisplayPass()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   Customer wasn't interested :( ");
+            Console.ResetColor();
+            Thread.Sleep(100);
+        }
+
+
+
+
         public static void DisplayTotalProfit(double gross, int days)
         {
             Console.WriteLine("Season Finished!");
             Console.WriteLine();
-            Console.WriteLine("In " + days + " days you ");
+            Console.Write("In " + days + " days you ");
 
             if (gross > 0)
             {
@@ -310,7 +330,7 @@ namespace LemonadeStandV2
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Lost $" + gross);
+                Console.Write("Lost $" + Math.Abs(gross)) ;
                 Console.ResetColor();
             }
         }
@@ -318,13 +338,9 @@ namespace LemonadeStandV2
 
         public static bool PlayAgainMenu()
         {
-            string input = GetUserInput("Play again? 'yes' or 'no'");
+            string input = YesOrNo(GetUserInput("Play again? 'yes' or 'no'"));
 
-            while (input!= "yes" && input != "no")
-            {
-                input = RetryGetUserInput("not a valid response type 'yes' or 'no'");
-              
-            }
+        
             if (input == "yes")
             {
                 return true;
@@ -333,7 +349,6 @@ namespace LemonadeStandV2
             {
                 return false;
             }
-
 
         }
 

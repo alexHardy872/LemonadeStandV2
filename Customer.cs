@@ -126,9 +126,10 @@ namespace LemonadeStandV2
         {
             double weatherAndTempFactors = CalculateLikelyToBuy();
             double recipeFactors = CombineRecipeeFactors(lemons, sugar, ice);
-            double priceFactor = (1 - price) * 100;
+            double priceFactor = 100 - (price * 100);
 
-            double likely = (weatherAndTempFactors * .3) + (recipeFactors * .4) + (priceFactor * .3);
+            double likely = (weatherAndTempFactors * .5) + (recipeFactors * .5);
+            likely *= ((priceFactor+5 )/ 100);
 
             if (recipeFactors < 1)
             {

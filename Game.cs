@@ -20,7 +20,7 @@ namespace LemonadeStandV2
 
         public void StartGame()
         {
-            bool playAgain = false;
+            bool playAgain;
             do
             {
                 UserInterface.Welcome();
@@ -36,10 +36,7 @@ namespace LemonadeStandV2
                     Console.Clear();
 
                     UserInterface.DisplayDay(currentDay, days);
-                    //UserInterface.DisplayForcast(days[i]);
-                    //UserInterface.SevenDayForcast(days, days[i], currentDay);
-                    //UserInterface.DisplayInventory(player);
-
+             
                     bool start;
                     do
                     {
@@ -50,14 +47,11 @@ namespace LemonadeStandV2
 
                     if (quitGame == false)
                     {
-
                         RunDay();
                         player.inventory.iceCubes.RemoveRange(0, player.inventory.iceCubes.Count);
                         UserInterface.DisplayPostInventory(player);
                         currentDay++;
-                    }
-
-                   
+                    }                 
                 }
                 EndGame();
                 playAgain = UserInterface.PlayAgainMenu();
@@ -66,6 +60,7 @@ namespace LemonadeStandV2
 
             Environment.Exit(0);
         }
+
 
         public void CreatePlayer()
         {
@@ -129,8 +124,7 @@ namespace LemonadeStandV2
                 return false;
             }
             if (player.recipe.amountOfLemons == 0 || player.recipe.amountOfSugarCups == 0 || player.recipe.amountOfIceCubes == 0)
-            {
-                
+            {   
                 string sure = UserInterface.YesOrNo(UserInterface.RetryGetUserInput("One or more items in your recipe have a quantity of ZERO, proceed 'yes' or 'no'?"));
                 if (sure == "yes")
                 {
@@ -146,8 +140,6 @@ namespace LemonadeStandV2
                 UserInterface.Error("You have insufficient inventory to use your current recipee! change the recipe or go back to the store!");
                 return false;
             }
-
-
             return true;
         }
 
@@ -181,7 +173,6 @@ namespace LemonadeStandV2
                         break;     
                     }
                 }
-
                 bool didBuy = customer.CustomerApproachesStand(player.recipe.pricePerCup, player.recipe.amountOfIceCubes, player.recipe.amountOfLemons, player.recipe.amountOfSugarCups);
                 if (didBuy == true)
                 {
@@ -193,11 +184,15 @@ namespace LemonadeStandV2
                     }
                     else
                     {
-
+                        UserInterface.DisplayPurchase();
                         dailyGross += player.recipe.pricePerCup;
                         cupsSold += 1;
                     }
-                } 
+                }
+                else
+                {
+                    UserInterface.DisplayPass();
+                }
             }
 
             player.pitcher.cupsLeftInPitcher = 0;
