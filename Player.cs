@@ -21,16 +21,27 @@ namespace LemonadeStandV2
             pitcher = new Pitcher();
         }
 
- 
+        public bool PourCup()
+        {
+            if (inventory.cups.Count >= 1 && inventory.iceCubes.Count >= recipe.amountOfIceCubes)
+            {
+                inventory.cups.RemoveAt(0);
+                inventory.iceCubes.RemoveRange(0, recipe.amountOfIceCubes);
+                pitcher.cupsLeftInPitcher -= 1;
+                return true;
+            }
+            else
+            {
+                return false; // SOLD OUT
+            }
+        }
 
         public bool PourPitcher()
         {
-            if (inventory.lemons.Count >= recipe.amountOfLemons && inventory.sugarCups.Count >= recipe.amountOfSugarCups && inventory.cups.Count >= 12 && inventory.iceCubes.Count >= recipe.amountOfIceCubes * 12)
+            if (inventory.lemons.Count >= recipe.amountOfLemons && inventory.sugarCups.Count >= recipe.amountOfSugarCups) 
             {
                 inventory.lemons.RemoveRange(0, recipe.amountOfLemons);
                 inventory.sugarCups.RemoveRange(0, recipe.amountOfSugarCups);
-                inventory.cups.RemoveRange(0, 12);
-                inventory.iceCubes.RemoveRange(0, (recipe.amountOfIceCubes * 12));
                 pitcher.cupsLeftInPitcher = 12;
 
                 return true;

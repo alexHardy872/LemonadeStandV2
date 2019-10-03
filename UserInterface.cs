@@ -216,7 +216,7 @@ namespace LemonadeStandV2
                 return IntGetUserInput(message);
             }
 
-            output = DLimiter(Math.Floor(output * 100d) / 100d, .01, 1);
+            output = DLimiter((Math.Floor(output * 100d) / 100d), .01, 1);
 
             
             return output;

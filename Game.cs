@@ -74,7 +74,7 @@ namespace LemonadeStandV2
 
         public void SetGameLength()
         {
-            gameLength = UserInterface.Limiter(Int32.Parse(UserInterface.GetUserInput("How many days would you like the game to last? (Max 30)")),1,30); // validate num?
+            gameLength = UserInterface.Limiter(UserInterface.IntGetUserInput("How many days would you like the game to last? (Max 30)"),1,30); // validate num?
             Console.Clear();
         }
 
@@ -125,7 +125,7 @@ namespace LemonadeStandV2
         {
             if (player.inventory.cups.Count == 0)
             {
-                UserInterface.Error("WOAH! you have no cups in your inventory! You cant sell ANY lemonade without 12 cups! Check your inventory and go back to the store!");
+                UserInterface.Error("WOAH! you have no cups in your inventory! You cant sell ANY lemonade without cups! Check your inventory and go back to the store!");
                 return false;
             }
             if (player.recipe.amountOfLemons == 0 || player.recipe.amountOfSugarCups == 0 || player.recipe.amountOfIceCubes == 0)
@@ -168,37 +168,39 @@ namespace LemonadeStandV2
             int cupsSold = 0;
             double dailyGross = 0;
             player.pitcher.cupsLeftInPitcher = 0;
-            bool soldOut = false;
+            
 
             foreach (Customer customer in days[currentDay-1].customers)
                 {
-
                 if (player.pitcher.cupsLeftInPitcher == 0)
                 {
                     bool successfulPour = player.PourPitcher();
                     if (successfulPour == false)
                     {
-                        soldOut = true;
                         UserInterface.SoldOut();
-                        break;
-                        
+                        break;     
                     }
-
                 }
 
                 bool didBuy = customer.CustomerApproachesStand(player.recipe.pricePerCup, player.recipe.amountOfIceCubes, player.recipe.amountOfLemons, player.recipe.amountOfSugarCups);
                 if (didBuy == true)
                 {
+                    bool successfulPour = player.PourCup();
+                    if (successfulPour == false)
+                    {
+                        UserInterface.SoldOut();
+                        break;
+                    }
+                    else
+                    {
 
-                    dailyGross += player.recipe.pricePerCup;
-                    player.pitcher.cupsLeftInPitcher -= 1;
-                    cupsSold += 1;
-
-                
+                        dailyGross += player.recipe.pricePerCup;
+                        cupsSold += 1;
+                    }
                 } 
-
             }
 
+            player.pitcher.cupsLeftInPitcher = 0;
             player.wallet.Money += dailyGross;
             UserInterface.DisplayDayResult(cupsSold, dailyGross, days[currentDay-1], currentDay);
             
