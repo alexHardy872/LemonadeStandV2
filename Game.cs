@@ -25,6 +25,7 @@ namespace LemonadeStandV2
             do
             {
                 UserInterface.Welcome();
+                UserInterface.Discription();
 
                 SetGameLength();
                 CreateAllDays();
@@ -85,7 +86,7 @@ namespace LemonadeStandV2
 
         public void SetGameLength()
         {
-            gameLength = UserInterface.Limiter(UserInterface.IntGetUserInput("How many days would you like the game to last? (Max 30)"),1,30); // validate num?
+            gameLength = UserInterface.Limiter(UserInterface.IntGetUserInput("How many days do you have until your parents get home? (Max 30)"),1,30); // validate num?
             Console.Clear();
         }
 

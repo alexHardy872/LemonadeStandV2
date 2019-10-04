@@ -12,6 +12,29 @@ namespace LemonadeStandV2
             Console.ReadLine();            Console.Clear();
         }
 
+        public static void Discription()
+        {            Console.Clear();            Console.WriteLine("SCENARIO: {0} " +
+                "{0} Your parents went camping for a month and " +
+                "{0} left you home alone. " +
+                "{0} Naturally, you destroyed the place.. " +
+                "{0}" +
+                "{0} Since you are only 12 you will not be able to get a job to" +
+                "{0} pay for all the damage..." +
+                "{0} The only way to redeem yourself is by selling LEMONADE!" +
+                "" +
+                "{0}" +
+                "{0} Use your mom's last $20 to buy supplies from the STORE, if you run" +
+                "{0} out of money you are DEAD MEAT." +
+                "{0} The WEATHER will have a large impact on the amount of customers you " +
+                "{0} will have AND their likelyhood to buy be sure to check the FORECAST." +
+                "{0} Your prices will also have a large impact but " +
+                "{0} dont skimp out on the RECIPE!" +
+                "{0}" +
+                "{0} press ENTER to continue...",Environment.NewLine);
+
+            Console.ReadLine();            Console.Clear();
+        }
+
         public static void DisplayDay(int currentDay, List<Day> days)
         {
             Console.Clear();
@@ -25,19 +48,7 @@ namespace LemonadeStandV2
             Console.WriteLine("You have $" + FormatDouble(player.wallet.Money));
         }
 
-        public static void DisplayForecast(Day dayIn)
-        {
-            string forecast = dayIn.weather.SendPredictedWeather();
-            Console.WriteLine("Today's forcast is "+forecast);
-            
-        }
 
-        public static void DisplayWeather(Day dayIn)
-        {
-            string forecast = dayIn.weather.SendActualWeather();
-            Console.WriteLine("Today's weather is " + forecast);
-
-        }
 
         public static void SevenDayForecast(List<Day> days, int currentDay)
         {
@@ -85,7 +96,9 @@ namespace LemonadeStandV2
         }
 
 
-      public static void PlayerInfoDisplay(Player player, Day day, List<Day> days)
+     
+
+        public static void PlayerInfoDisplay(Player player, Day day, List<Day> days)
        {
             
             string forecast = day.weather.predictedForecast;
@@ -368,15 +381,15 @@ namespace LemonadeStandV2
             switch (weatherCondition)
             {
                 case "Snowy":
-                    return 10;
+                    return 30;
                 case "Rainy":
-                    return 25;
+                    return 40;
                 case "Overcast":
-                    return 50;
-                case "Clear":
                     return 65;
+                case "Clear":
+                    return 80;
                 case "Sunny":
-                    return 90;
+                    return 105;
                 default:
                     return 50;
             }
