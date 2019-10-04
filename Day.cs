@@ -24,9 +24,9 @@ namespace LemonadeStandV2
         public int GetCrowdSize()
         {
 
-            double baseCrowd = UserInterface.RandomNumber(60, 120);
+            double baseCrowd = UserInterface.RandomNumber(75, 120);
             double weatherFactor = UserInterface.DetermineWeatherFactor(weather.condition);
-            double newCrowd = Math.Floor(((weatherFactor / 100)*2) * baseCrowd);
+            double newCrowd = Math.Floor(((weatherFactor / 100)*2.2) * baseCrowd);
 
             int crowdInt = Convert.ToInt32(newCrowd);
             return crowdInt;
