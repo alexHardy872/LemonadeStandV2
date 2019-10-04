@@ -59,7 +59,7 @@ namespace LemonadeStandV2
                     if (quitGame == false)
                     {
                         RunDay();
-                        player.inventory.iceCubes.RemoveRange(0, player.inventory.iceCubes.Count);
+                        player.inventory.iceCubes.Clear();
                         UserInterface.DisplayPostInventory(player, days[currentDay-1], days);
                         currentDay++;
                     }
@@ -67,10 +67,10 @@ namespace LemonadeStandV2
                     {
                         break;
                     }
-                    
                 }
                 EndGame();
                 playAgain = UserInterface.PlayAgainMenu();
+                quitGame = false;
 
             } while (playAgain == true);
 
@@ -131,8 +131,8 @@ namespace LemonadeStandV2
                         break;
                     case "forecast":
                         
-                        UserInterface.PlayerInfoDisplay(player, days[currentDay], days);
-                        UserInterface.SevenDayForecast(days, currentDay - 1);
+                        UserInterface.PlayerInfoDisplay(player, days[currentDay-1], days);
+                        UserInterface.SevenDayForecast(days, (currentDay -1));
                         
                         break;
                 }
@@ -188,16 +188,16 @@ namespace LemonadeStandV2
                         
                         dailyGross += player.recipe.pricePerCup;
                         player.wallet.Money += player.recipe.pricePerCup;
-                        UserInterface.ClearSpace( player, days[currentDay], days, dailyGross);
-                        UserInterface.DisplayPurchase(dailyGross);
+                        UserInterface.ClearSpace( player, days[currentDay-1], days, dailyGross);
+                        UserInterface.DisplayPurchase(dailyGross, customer.name);
                         cupsSold += 1;
                     }
                 }
                 else
                 {
                     
-                    UserInterface.ClearSpace( player, days[currentDay], days, dailyGross);
-                    UserInterface.DisplayPass();
+                    UserInterface.ClearSpace( player, days[currentDay-1], days, dailyGross);
+                    UserInterface.DisplayPass(customer.name);
                 }
             }
 

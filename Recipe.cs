@@ -45,7 +45,10 @@ namespace LemonadeStandV2
         }
         public string ChangeInput()        {
 
-            string input;                                                       input = UserInterface.GetUserInput("To modify the recipe, type 'lemons', 'sugar', 'ice', 'price', or  'done'").ToLower();                                while(input != "price" && input != "lemons" && input != "sugar" && input != "ice" && input != "done")
+            string input;
+
+
+            UserInterface.RecipeMenuTitle();                input = UserInterface.GetUserInput("To modify the recipe, type 'lemons', 'sugar', 'ice', 'price', or  'done'").ToLower();                                while(input != "price" && input != "lemons" && input != "sugar" && input != "ice" && input != "done")
             {
                 input = UserInterface.RetryGetUserInput(input+" is not a valid respone, try again!").ToLower();
             }

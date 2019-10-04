@@ -26,16 +26,16 @@ namespace LemonadeStandV2
 
             double baseCrowd = UserInterface.RandomNumber(75, 120);
             double weatherFactor = UserInterface.DetermineWeatherFactor(weather.condition);
-            double newCrowd = Math.Floor(((weatherFactor / 100)*2.2) * baseCrowd);
+            double newCrowd = Math.Floor(((weatherFactor / 100*1.5)+.2) * baseCrowd);
 
             int crowdInt = Convert.ToInt32(newCrowd);
             return crowdInt;
         }
 
 
-        public void CreateCustomer()                                                   /////// SINGLE RESPONSIBILITY PRINCIPLE!
+        public void CreateCustomer(int num)                                                   /////// SINGLE RESPONSIBILITY PRINCIPLE!
         {
-            Customer customer = new Customer(weather.condition, weather.temperature);
+            Customer customer = new Customer(weather.condition, weather.temperature, num);
             customers.Add(customer);
         }
 
@@ -44,7 +44,7 @@ namespace LemonadeStandV2
         {
             for (int i = 0; i < crowd; i++)
             {
-                CreateCustomer();
+                CreateCustomer(i+1);
             }
         }
 

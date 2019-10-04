@@ -43,6 +43,7 @@ namespace LemonadeStandV2
         {
             int daysLeft = days.Count - currentDay;
             int daysAhead = Limiter(daysLeft, 0, 7);
+            CenterText("--------------------7 DAY FORECAST----------------------");
             Console.WriteLine("Upcoming weather...");
 
             if (daysAhead > 1)
@@ -97,7 +98,7 @@ namespace LemonadeStandV2
             Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "Lemons", player.inventory.lemons.Count, "Lemons", player.recipe.amountOfLemons));
             Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "sugar", player.inventory.sugarCups.Count, "sugar", player.recipe.amountOfSugarCups));
             Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "ice", player.inventory.iceCubes.Count, "ice", player.recipe.amountOfIceCubes));
-            Console.WriteLine(String.Format("{0,-30}{1,-30}{2,-10}", "----------------------", "----------------------", "Current Money $" + player.wallet.Money));
+            Console.WriteLine(String.Format("{0,-30}{1,-30}{2,-10}", "----------------------", "----------------------", "Current Money $" + FormatDouble(player.wallet.Money)));
             Console.WriteLine();
         }
 
@@ -115,7 +116,7 @@ namespace LemonadeStandV2
             Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "Lemons", player.inventory.lemons.Count, "Lemons", player.recipe.amountOfLemons));
             Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "sugar", player.inventory.sugarCups.Count, "sugar", player.recipe.amountOfSugarCups));
             Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "ice", player.inventory.iceCubes.Count, "ice", player.recipe.amountOfIceCubes));
-            Console.WriteLine(String.Format("{0,-30}{1,-30}{2,-10}", "----------------------", "----------------------", "Todays money $" + gross));
+            Console.WriteLine(String.Format("{0,-30}{1,-30}{2,-10}", "----------------------", "----------------------", "Todays money $" + FormatDouble(gross)));
             Console.WriteLine();
         }
 
@@ -124,8 +125,8 @@ namespace LemonadeStandV2
 
         public static void DisplayPostInventory(Player player, Day day, List<Day> days)
         {
-            Console.WriteLine("Here is your remaining Inventory");
-            PlayerInfoDisplay(player, day, days);
+           // Console.WriteLine("Here is your remaining Inventory");
+            //PlayerInfoDisplay(player, day, days);
             Console.WriteLine("Your remaining ice melted!");
             Console.WriteLine();
             Console.ReadLine();
@@ -133,7 +134,7 @@ namespace LemonadeStandV2
 
         public static void DisplayMenu()
         {
-            Console.WriteLine("Menu");
+            CenterText("-------------------MENU-------------------");
             Console.WriteLine();
             Console.WriteLine("'store' , 'recipe' , 'start' , 'quit', or 'forecast' (7 day forecast)");
             Console.WriteLine();
@@ -167,14 +168,29 @@ namespace LemonadeStandV2
             return true;
         }
 
+        public static void CenterText(string textIn)
+        {
+            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (textIn.Length/2)) + "}", textIn));
+        }
+
+        public static void RecipeMenuTitle()
+        {
+            CenterText("--------------------RECIPE MENU----------------------");
+            Console.WriteLine();
+            
+
+        }
+
         public static void DisplayStoreMenu()
         {
-
+            CenterText("---------------------STORE MENU----------------------");
             Console.WriteLine();
             Console.WriteLine("What would you like to buy? ('cups', 'lemons' , 'sugar' , 'ice' , or to leave 'done'");
             Console.WriteLine();
 
         }
+
+
 
         public static void DisplayStoreQuantities(string item, int quant1, int quant2, int quant3, double price1, double price2, double price3)
         {
@@ -201,23 +217,49 @@ namespace LemonadeStandV2
             Console.ReadLine();
         }
 
-        public static void DisplayDayResult(int cupsSold, double profit, Day day, int currentDay, Player player)
+        public static void DisplayDayResult(int cupsSold, double gross, Day day, int currentDay, Player player)
         {
             Console.Clear();
             Console.WriteLine("DAY " + currentDay + " RESULTS:");
             Console.WriteLine();
             Thread.Sleep(1000);
-            Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers for a total of $"+FormatDouble(profit));
-            //Console.WriteLine("Current total money "+player.wallet.Money);
+            Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers for a total of $" + FormatDouble(gross));
+
+            double profit = (player.wallet.Money) - 20;
+            if (profit > 0)
+            {
+                Profit(profit);
+            }
+            else
+            {
+                Loss(profit);
+            }
+
             Console.WriteLine("Press Enter to advance to next day");
             Console.ReadLine();
 
+ 
+            }
+
+        
+
+
+
+        public static void Profit(double profit)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Total running profit $" + FormatDouble(profit));
+            Console.ResetColor();
+        }
+
+        public static void Loss (double profit)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Total running Loss $" + FormatDouble(Math.Abs(profit)));
+            Console.ResetColor();
         }
 
 
-
-        /// HELPERS
-        ///
 
         public static string GetUserInput(string message)
         {
@@ -376,18 +418,18 @@ namespace LemonadeStandV2
         }
 
 
-        public static void DisplayPurchase(double gross)
+        public static void DisplayPurchase(double gross, int name)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("$$ Customer bought lemonade $$ daily total $"+FormatDouble(gross));
+            Console.WriteLine("$$ Customer "+name+" bought lemonade $$ daily total $"+FormatDouble(gross));
             Console.ResetColor();
             Thread.Sleep(100);
         }
 
-        public static void DisplayPass()
+        public static void DisplayPass(int name)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("   Customer wasn't interested :( ");
+            Console.WriteLine("   Customer "+name+" wasn't interested :( ");
             Console.ResetColor();
             Thread.Sleep(100);
         }

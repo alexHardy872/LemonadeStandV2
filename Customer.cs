@@ -8,12 +8,14 @@ namespace LemonadeStandV2
         private string weather;
         private int temp;
         public bool didBuy;
+        public int name;
         
 
-        public Customer(string weather, int temp)
+        public Customer(string weather, int temp, int name)
         {
             this.weather = weather;
             this.temp = temp;
+            this.name = name;
 
         }
 
