@@ -16,9 +16,20 @@ namespace LemonadeStandV2
             name = day;
             weather = new Weather();
             customers = new List<Customer> { };
-            crowd = UserInterface.RandomNumber(60, 120);
+            crowd = GetCrowdSize();
             MultiplyCustomers();
 
+        }
+
+        public int GetCrowdSize()
+        {
+
+            double baseCrowd = UserInterface.RandomNumber(60, 120);
+            double weatherFactor = UserInterface.DetermineWeatherFactor(weather.condition);
+            double newCrowd = Math.Floor(((weatherFactor / 100)*2) * baseCrowd);
+
+            int crowdInt = Convert.ToInt32(newCrowd);
+            return crowdInt;
         }
 
 

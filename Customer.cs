@@ -17,12 +17,12 @@ namespace LemonadeStandV2
 
         }
 
-        public double CalculateLikelyToBuy()
+        public double CalculateTempAndWeatherFactors()
         {
             double tempFactor = temp;
            
             double customerVarietyFactor = UserInterface.RandomNumber(0, 100);
-            double weatherFactor = DetermineWeatherFactor();
+            double weatherFactor = UserInterface.DetermineWeatherFactor(weather);
 
             likelyToBuy = (tempFactor + weatherFactor  + customerVarietyFactor) / 3;
             return likelyToBuy;
@@ -45,6 +45,7 @@ namespace LemonadeStandV2
         }
 
 
+
         public double CalculateLemonsFactor(int lemonsPerPitcher)
         {
             double lemonsFactor = Convert.ToDouble(UserInterface.Limiter(lemonsPerPitcher * 10, 0, 10));
@@ -53,12 +54,14 @@ namespace LemonadeStandV2
         }
 
 
+
         public double CalculateSugarFactor(int sugarCupsPerPitcher)
         {
             double sugarFactor = Convert.ToDouble(UserInterface.Limiter(sugarCupsPerPitcher * 10, 0, 10));
             
             return sugarFactor*10;
         }
+
 
 
         public double CalculateSweetSourRatio(int lemonsPerPitcher, int sugarCupsPerPitcher)
@@ -82,6 +85,7 @@ namespace LemonadeStandV2
         }
 
 
+
         public double CalculateIceFactor(int iceCubesPerCup)
         {
             double iceFactor;
@@ -102,40 +106,26 @@ namespace LemonadeStandV2
 
 
 
-        public double DetermineWeatherFactor()
-        {
-            switch (weather)
-            {
-                case "Snowy":
-                    return 10;
-                case "Rainy":
-                    return 20;
-                case "Overcast":
-                    return 40;
-                case "Clear":
-                    return 60;
-                case "Sunny":
-                    return 90;
-                default:
-                    return 50;
-            }
-        }
 
-
-        public bool CustomerApproachesStand(double price, int ice, int lemons, int sugar)
+        public double LikelynessToBuy(double price, int ice, int lemons, int sugar)
         {
-            double weatherAndTempFactors = CalculateLikelyToBuy();
+            double weatherAndTempFactors = CalculateTempAndWeatherFactors();
             double recipeFactors = CombineRecipeeFactors(lemons, sugar, ice);
             double priceFactor = 100 - (price * 100);
-
             double likely = (weatherAndTempFactors * .5) + (recipeFactors * .5);
-            likely *= ((priceFactor+5 )/ 100);
-
+            likely *= ((priceFactor + 5) / 100);
             if (recipeFactors < 1)
             {
                 likely /= 4;
             }
 
+            return likely;
+        }
+
+
+        public bool CustomerApproachesStand(double price, int ice, int lemons, int sugar)
+        {
+            double likely = LikelynessToBuy(price, ice, lemons, sugar);
             double chance = UserInterface.RandomNumber(0, 100);
             if (likely < chance) /// is the chance (out of 100) beyond the range they are likely to buy
             {

@@ -9,12 +9,13 @@ namespace LemonadeStandV2
         public int amountOfIceCubes;
         public double pricePerCup;
         bool leaveRecipe;
-
+        
 
         public Recipe()
         {
             amountOfLemons = 0;            amountOfSugarCups = 0;            amountOfIceCubes = 0;            pricePerCup = 0.01;
             leaveRecipe = false;
+           
         }
 
 
@@ -24,7 +25,7 @@ namespace LemonadeStandV2
        
 
 
-        public void GoToRecipe()
+        public void GoToRecipe(Player player, Day day , List<Day> days)
         {
             leaveRecipe = false;
 
@@ -32,7 +33,7 @@ namespace LemonadeStandV2
             {
                 Console.Clear();
 
-                UserInterface.DisplayRecipe(amountOfLemons, amountOfSugarCups, amountOfIceCubes, pricePerCup);
+                UserInterface.PlayerInfoDisplay(player, day, days);
                 
                 ChangeRecipeSwitch(ChangeInput());
 
@@ -70,7 +71,7 @@ namespace LemonadeStandV2
                 amountOfIceCubes = UserInterface.IntGetUserInput("How much Ice do you want in each cup?");               
                 break;
             case "price":
-                    pricePerCup = UserInterface.GetUserPriceInput("What do you want to charge per cup? ($0.01 = $1.00"); // double
+                    pricePerCup = UserInterface.GetUserPriceInput("What do you want to charge per cup? ($0.01 = $1.00)"); // double
                     break;
             case "done":
                     leaveRecipe = true;

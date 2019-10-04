@@ -7,7 +7,7 @@ namespace LemonadeStandV2
         public string condition;
         public int temperature;
         private List<string> weatherConditions;
-        public string predictedForcast;
+        public string predictedForecast;
         public int predictedTemp;
         
 
@@ -38,11 +38,11 @@ namespace LemonadeStandV2
 
             if (accuracy > 0)
             {
-                predictedForcast = condition;
+                predictedForecast = condition;
             }
             else
             {
-                if (error == 0)                {                    predictedForcast = weatherConditions[index + 1];                }                else                {                    predictedForcast = weatherConditions[index - 1];                }
+                if (error == 0)                {                    predictedForecast = weatherConditions[index + 1];                }                else                {                    predictedForecast = weatherConditions[index - 1];                }
             }
 
         }
@@ -57,7 +57,7 @@ namespace LemonadeStandV2
 
         public string SendPredictedWeather()
         {
-            return  predictedTemp + " degrees and " + predictedForcast;
+            return  predictedTemp + " degrees and " + predictedForecast;
         }
 
 

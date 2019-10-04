@@ -14,9 +14,9 @@ namespace LemonadeStandV2
 
         public static void DisplayDay(int currentDay, List<Day> days)
         {
-            Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Day " + currentDay+" of "+days.Count);
-            Console.ResetColor();
+            Console.Clear();
+            YellowHighlight("Day " + currentDay+" of "+days.Count);
+           
 
         }
 
@@ -25,21 +25,21 @@ namespace LemonadeStandV2
             Console.WriteLine("You have $" + FormatDouble(player.wallet.Money));
         }
 
-        public static void DisplayForcast(Day dayIn)
+        public static void DisplayForecast(Day dayIn)
         {
-            string forcast = dayIn.weather.SendPredictedWeather();
-            Console.WriteLine("Today's forcast is "+forcast);
+            string forecast = dayIn.weather.SendPredictedWeather();
+            Console.WriteLine("Today's forcast is "+forecast);
             
         }
 
         public static void DisplayWeather(Day dayIn)
         {
-            string forcast = dayIn.weather.SendActualWeather();
-            Console.WriteLine("Today's weather is " + forcast);
+            string forecast = dayIn.weather.SendActualWeather();
+            Console.WriteLine("Today's weather is " + forecast);
 
         }
 
-        public static void SevenDayForcast(List<Day> days, int currentDay)
+        public static void SevenDayForecast(List<Day> days, int currentDay)
         {
             int daysLeft = days.Count - currentDay;
             int daysAhead = Limiter(daysLeft, 0, 7);
@@ -51,48 +51,81 @@ namespace LemonadeStandV2
                 {
                     if ( i == currentDay)
                     {
-                        string forcast = days[i].weather.SendPredictedWeather();
-                        YellowHighlight("Day " + (currentDay + 1) + " forcast " + forcast);
+                        string forecast = days[i].weather.SendPredictedWeather();
+                        YellowHighlight("Day " + (currentDay + 1) + " forecast " + forecast);
                     }
                     else
                     {
-                        string forcast = days[i].weather.SendPredictedWeather();
-                        Console.WriteLine("Day " + (i + 1) + " forcast " + forcast);
+                        string forecast = days[i].weather.SendPredictedWeather();
+                        Console.WriteLine("Day " + (i + 1) + " forecast " + forecast);
                     }
                            
                 }
             }
             if (daysAhead == 1)
             {
-                string forcast = days[currentDay].weather.SendPredictedWeather();
-                Console.WriteLine("Tomorrow's forcast is " + forcast);
+                string forecast = days[currentDay].weather.SendPredictedWeather();
+                Console.WriteLine("Tomorrow's forecast is " + forecast);
                 Console.WriteLine();
             }
+
+            Console.WriteLine("Press ENTER for menu");
+            Console.ReadLine();
         }
 
         public static void YellowHighlight(string input)
         {
 
             Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.Write(input);
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Write(input+" ");
             Console.ResetColor();
-            Console.WriteLine("**");
-        }
-
-
-
-
-        public static void DisplayInventory(Player player)
-        {
-
-            Console.WriteLine("Inventory");            Console.WriteLine();            Console.WriteLine(player.inventory.cups.Count + " Cups");            Console.WriteLine(player.inventory.lemons.Count + " Lemons");            Console.WriteLine(player.inventory.sugarCups.Count + " Cups of sugar");            Console.WriteLine(player.inventory.iceCubes.Count + " IceCubes");
             Console.WriteLine();
         }
 
-        public static void DisplayPostInventory(Player player)
+
+      public static void PlayerInfoDisplay(Player player, Day day, List<Day> days)
+       {
+            
+            string forecast = day.weather.predictedForecast;
+            int temp = day.weather.predictedTemp;
+            DisplayDay(day.name, days);
+            Console.WriteLine(String.Format("{0,-30}{1,-30}", "----------------------", "----------------------"));
+            Console.WriteLine(String.Format("{0,-30}{1,-30}{2,-10}", "Inventory", "Recipe","Forecast"));
+            Console.WriteLine(String.Format("{0,-30}{1,-30}{2,-10}", "----------------------", "----------------------", temp+" and "+forecast));
+            Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "cups", player.inventory.cups.Count, "price", "$" + player.recipe.pricePerCup));
+            Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "Lemons", player.inventory.lemons.Count, "Lemons", player.recipe.amountOfLemons));
+            Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "sugar", player.inventory.sugarCups.Count, "sugar", player.recipe.amountOfSugarCups));
+            Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "ice", player.inventory.iceCubes.Count, "ice", player.recipe.amountOfIceCubes));
+            Console.WriteLine(String.Format("{0,-30}{1,-30}{2,-10}", "----------------------", "----------------------", "Current Money $" + player.wallet.Money));
+            Console.WriteLine();
+        }
+
+
+        public static void LiveInfoDisplay(Player player, Day day, List<Day> days, double gross)
+        {
+
+            string forecast = day.weather.condition;
+            int temp = day.weather.temperature;
+            DisplayDay(day.name, days);
+            Console.WriteLine(String.Format("{0,-30}{1,-30}", "----------------------", "----------------------"));
+            Console.WriteLine(String.Format("{0,-30}{1,-30}{2,-10}", "Inventory", "Recipe", "Weather"));
+            Console.WriteLine(String.Format("{0,-30}{1,-30}{2,-10}", "----------------------", "----------------------", temp + " and " + forecast));
+            Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "cups", player.inventory.cups.Count, "price", "$" + player.recipe.pricePerCup));
+            Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "Lemons", player.inventory.lemons.Count, "Lemons", player.recipe.amountOfLemons));
+            Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "sugar", player.inventory.sugarCups.Count, "sugar", player.recipe.amountOfSugarCups));
+            Console.WriteLine(String.Format("{0,-15}{1,-15}{2,-15}{3,-15}", "ice", player.inventory.iceCubes.Count, "ice", player.recipe.amountOfIceCubes));
+            Console.WriteLine(String.Format("{0,-30}{1,-30}{2,-10}", "----------------------", "----------------------", "Todays money $" + gross));
+            Console.WriteLine();
+        }
+
+
+
+
+        public static void DisplayPostInventory(Player player, Day day, List<Day> days)
         {
             Console.WriteLine("Here is your remaining Inventory");
-            DisplayInventory(player);
+            PlayerInfoDisplay(player, day, days);
             Console.WriteLine("Your remaining ice melted!");
             Console.WriteLine();
             Console.ReadLine();
@@ -102,7 +135,7 @@ namespace LemonadeStandV2
         {
             Console.WriteLine("Menu");
             Console.WriteLine();
-            Console.WriteLine("'store' , 'recipe' , 'start' , 'quit', or 'forcast' (7 day forcast)");
+            Console.WriteLine("'store' , 'recipe' , 'start' , 'quit', or 'forecast' (7 day forecast)");
             Console.WriteLine();
         }
 
@@ -138,13 +171,7 @@ namespace LemonadeStandV2
         {
 
             Console.WriteLine();
-            Console.WriteLine("What would you like to buy?");
-            Console.WriteLine();
-            Console.WriteLine("Cups? type 'cups'");
-            Console.WriteLine("Lemons? type 'lemons'");
-            Console.WriteLine("Sugar? type 'sugar'");
-            Console.WriteLine("Ice Cubes? type 'ice'");
-            Console.WriteLine("Back to game menu? type 'done'");
+            Console.WriteLine("What would you like to buy? ('cups', 'lemons' , 'sugar' , 'ice' , or to leave 'done'");
             Console.WriteLine();
 
         }
@@ -159,24 +186,13 @@ namespace LemonadeStandV2
         {
 
             Console.WriteLine("purchased " + quant + " " + item + " for $" + price);
-            Console.WriteLine("remaining money $" + FormatDouble(player.wallet.Money));
+            //Console.WriteLine("remaining money $" + FormatDouble(player.wallet.Money));
         }
 
      
 
-        public static void DisplayRecipe(int amountOfLemons, int amountOfSugarCups, int amountOfIceCubes, double pricePerCup)
-        {
-            Console.WriteLine("Current Recipe");            Console.WriteLine();
-            Console.WriteLine("Lemons per pitcher = " + amountOfLemons);            Console.WriteLine("Sugar per pitcher = " + amountOfSugarCups);            Console.WriteLine("IceCubes per glass = " + amountOfIceCubes); // X 12 is per pitcher
-            Console.WriteLine("Price per cup = $" + pricePerCup);            Console.WriteLine();
-        }
+    
 
-        public static void DisplayRecipe(Player player)
-        {
-            Console.WriteLine("Current Recipe");            Console.WriteLine();
-            Console.WriteLine("Lemons per pitcher = " + player.recipe.amountOfLemons);            Console.WriteLine("Sugar per pitcher = " + player.recipe.amountOfSugarCups);            Console.WriteLine("IceCubes per glass = " + player.recipe.amountOfIceCubes); // X 12 is per pitcher
-            Console.WriteLine("Price per cup = $" + player.recipe.pricePerCup);            Console.WriteLine();
-        }
 
 
         public static void SoldOut()
@@ -192,7 +208,7 @@ namespace LemonadeStandV2
             Console.WriteLine();
             Thread.Sleep(1000);
             Console.WriteLine("Sold " + cupsSold + " cups of lemonade to " + day.crowd + " potential customers for a total of $"+FormatDouble(profit));
-            Console.WriteLine("Current total money "+player.wallet.Money);
+            //Console.WriteLine("Current total money "+player.wallet.Money);
             Console.WriteLine("Press Enter to advance to next day");
             Console.ReadLine();
 
@@ -305,6 +321,26 @@ namespace LemonadeStandV2
         }
 
 
+        public static double DetermineWeatherFactor(string weatherCondition)
+        {
+            switch (weatherCondition)
+            {
+                case "Snowy":
+                    return 10;
+                case "Rainy":
+                    return 25;
+                case "Overcast":
+                    return 50;
+                case "Clear":
+                    return 65;
+                case "Sunny":
+                    return 90;
+                default:
+                    return 50;
+            }
+        }
+
+
         public static int Limiter(int input, int min, int max)
         {
             if (input > max)
@@ -405,6 +441,14 @@ namespace LemonadeStandV2
             }
 
             return input.ToLower();
+        }
+
+        public static void ClearSpace( Player player, Day day, List<Day> days, double gross)
+        {
+
+                Console.Clear();
+                LiveInfoDisplay(player, day, days, gross);
+            
         }
 
     }

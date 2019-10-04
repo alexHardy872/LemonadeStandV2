@@ -7,13 +7,14 @@ namespace LemonadeStandV2
     {
         Player player;
         List<Day> days;
+        Store store;
         int currentDay;
         int gameLength;
         bool quitGame;
 
         public Game()
         {
-            
+            store = new Store();
             
         }
 
@@ -31,27 +32,42 @@ namespace LemonadeStandV2
                 currentDay = 1;
 
 
+                
+
+
                 for (int i = 0; i < days.Count; i++)
                 {
                     Console.Clear();
 
-                    UserInterface.DisplayDay(currentDay, days);
-             
-                    bool start;
+
+
+
+                    bool start = false;
                     do
                     {
+                        
                         GoToMenu();
-                        start = UserInterface.GoodToStart(player);
+                        if (quitGame == false)
+                        {
+                            start = UserInterface.GoodToStart(player);
+                        }
+                        
+                        
                     }
-                    while (start == false);
+                    while (start == false && quitGame == false);
 
                     if (quitGame == false)
                     {
                         RunDay();
                         player.inventory.iceCubes.RemoveRange(0, player.inventory.iceCubes.Count);
-                        UserInterface.DisplayPostInventory(player);
+                        UserInterface.DisplayPostInventory(player, days[currentDay-1], days);
                         currentDay++;
-                    }                 
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    
                 }
                 EndGame();
                 playAgain = UserInterface.PlayAgainMenu();
@@ -81,36 +97,43 @@ namespace LemonadeStandV2
         {
 
             
-            UserInterface.DisplayForcast(days[currentDay-1]);
-            UserInterface.DisplayInventory(player);
-            UserInterface.DisplayRecipe(player);
+           
+           
 
             bool leaveMenu = false;
             while (leaveMenu == false)
             {
+                UserInterface.PlayerInfoDisplay(player, days[currentDay - 1], days);
                 UserInterface.DisplayMenu();
                 string selection = UserInterface.GetUserInput("Where would you like to go?");
-                while (selection.ToLower() != "start" && selection.ToLower() != "store" && selection.ToLower() != "recipe" && selection.ToLower() != "quit" && selection.ToLower() != "forcast")
+                while (selection.ToLower() != "start" && selection.ToLower() != "store" && selection.ToLower() != "recipe" && selection.ToLower() != "quit" && selection.ToLower() != "forecast")
                 {
                     selection = UserInterface.RetryGetUserInput("not a valid selection!");
                 }
                 switch (selection)
                 {
                     case "store":
+                        Console.Clear();
                         GoToStore();
                         break;
                     case "recipe":
-                        player.recipe.GoToRecipe();
+                        Console.Clear();
+                        player.recipe.GoToRecipe(player, days[currentDay-1], days);
                         break;
                     case "start":
+                        Console.Clear();
                         leaveMenu = true;
                         break;
                     case "quit":
+                        Console.Clear();
                         leaveMenu = true;
                         quitGame = true;
                         break;
-                    case "forcast":
-                        UserInterface.SevenDayForcast(days, currentDay - 1);
+                    case "forecast":
+                        
+                        UserInterface.PlayerInfoDisplay(player, days[currentDay], days);
+                        UserInterface.SevenDayForecast(days, currentDay - 1);
+                        
                         break;
                 }
             }
@@ -121,8 +144,8 @@ namespace LemonadeStandV2
 
         public void GoToStore()
         {
-            Store store = new Store(player);
-            store.GoToTheStore();
+            
+            store.GoToTheStore(player, days[currentDay-1], days);
 
         }
 
@@ -130,12 +153,13 @@ namespace LemonadeStandV2
         public void RunDay()
         {
 
-            UserInterface.DisplayWeather(days[currentDay - 1]);
-
+            
+            
             int cupsSold = 0;
             double dailyGross = 0;
             player.pitcher.cupsLeftInPitcher = 0;
-            
+            UserInterface.LiveInfoDisplay(player, days[currentDay - 1], days, dailyGross);
+
 
             foreach (Customer customer in days[currentDay-1].customers)
                 {
@@ -144,6 +168,8 @@ namespace LemonadeStandV2
                     bool successfulPour = player.PourPitcher();
                     if (successfulPour == false)
                     {
+                        
+                        
                         UserInterface.SoldOut();
                         break;     
                     }
@@ -161,18 +187,21 @@ namespace LemonadeStandV2
                     {
                         
                         dailyGross += player.recipe.pricePerCup;
+                        player.wallet.Money += player.recipe.pricePerCup;
+                        UserInterface.ClearSpace( player, days[currentDay], days, dailyGross);
                         UserInterface.DisplayPurchase(dailyGross);
                         cupsSold += 1;
                     }
                 }
                 else
                 {
+                    
+                    UserInterface.ClearSpace( player, days[currentDay], days, dailyGross);
                     UserInterface.DisplayPass();
                 }
             }
 
             player.pitcher.cupsLeftInPitcher = 0;
-            player.wallet.Money += dailyGross;
             UserInterface.DisplayDayResult(cupsSold, dailyGross, days[currentDay-1], currentDay, player);
             
 
