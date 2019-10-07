@@ -50,6 +50,7 @@ namespace LemonadeStandV2
 
 
 
+
         public static void SevenDayForecast(List<Day> days, int currentDay)
         {
             int daysLeft = days.Count - currentDay;
