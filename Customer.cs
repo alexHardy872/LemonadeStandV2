@@ -36,12 +36,12 @@ namespace LemonadeStandV2
 
         public double CombineRecipeeFactors(int lemonsPerPitcher,int sugarCupsPerPitcher, int iceCubesPerCup )
         {
-            double recipetotal = CalculateLemonsFactor(lemonsPerPitcher) + CalculateIceFactor(iceCubesPerCup) + CalculateSweetSourRatio(lemonsPerPitcher, sugarCupsPerPitcher) + CalculateSugarFactor(sugarCupsPerPitcher);
+            double recipetotal = CalculateLemonsFactor(lemonsPerPitcher) + CalculateIceFactor(iceCubesPerCup) + CalculateSugarFactor(sugarCupsPerPitcher);
             if (lemonsPerPitcher == 0 || sugarCupsPerPitcher == 0)
             {
                 recipetotal = 0;
             }
-            double recipeFactor = (recipetotal / 4);
+            double recipeFactor = (recipetotal / 3);
 
             return recipeFactor;
         }
@@ -50,7 +50,7 @@ namespace LemonadeStandV2
 
         public double CalculateLemonsFactor(int lemonsPerPitcher)
         {
-            double lemonsFactor = Convert.ToDouble(UserInterface.Limiter(lemonsPerPitcher * 10, 0, 10));
+            double lemonsFactor = Convert.ToDouble(UserInterface.Limiter(lemonsPerPitcher, 0, 10));
 
             return lemonsFactor*10;
         }
@@ -59,32 +59,13 @@ namespace LemonadeStandV2
 
         public double CalculateSugarFactor(int sugarCupsPerPitcher)
         {
-            double sugarFactor = Convert.ToDouble(UserInterface.Limiter(sugarCupsPerPitcher * 10, 0, 10));
+            double sugarFactor = Convert.ToDouble(UserInterface.Limiter(sugarCupsPerPitcher, 0, 10));
             
             return sugarFactor*10;
         }
 
 
 
-        public double CalculateSweetSourRatio(int lemonsPerPitcher, int sugarCupsPerPitcher)
-        {
-            double sweetSourFactor;
-
-            if (lemonsPerPitcher == sugarCupsPerPitcher)
-            {
-                sweetSourFactor = 100;
-            }
-            else if (lemonsPerPitcher/sugarCupsPerPitcher > 2 || sugarCupsPerPitcher/lemonsPerPitcher >2 )
-            {
-                sweetSourFactor = 0;
-            }
-           
-            else
-            {
-                sweetSourFactor = 50;
-            }
-            return sweetSourFactor;
-        }
 
 
 
